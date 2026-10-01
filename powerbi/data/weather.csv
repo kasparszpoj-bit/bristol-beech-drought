@@ -1,0 +1,112 @@
+station,year,growing_season_rain_mm,july_rain_mm,summer_mean_max_c,provisional,dry_rank_mar_aug,dry_rank_july,hot_rank_summer,n_years
+Cardiff Bute Park,1978,395.7,110.1,18.93,False,12,40,49,49
+Cardiff Bute Park,1979,481.5,37.3,19.40,False,24,11,45,49
+Cardiff Bute Park,1980,490.0,67.2,19.10,False,28,22,47,49
+Cardiff Bute Park,1981,473.6,30.1,19.97,False,21,9,39,49
+Cardiff Bute Park,1982,421.0,29.7,20.87,False,16,8,30,49
+Cardiff Bute Park,1983,377.2,18,22.87,False,8,5,6,49
+Cardiff Bute Park,1984,198.7,14.7,22.43,False,1,4,10,49
+Cardiff Bute Park,1985,634.9,95.9,19.00,False,47,36,48,49
+Cardiff Bute Park,1986,523.7,69.7,19.53,False,33,24,44,49
+Cardiff Bute Park,1987,421.0,71,20.20,False,16,26,34,49
+Cardiff Bute Park,1988,565.3,154.4,19.27,False,39,46,46,49
+Cardiff Bute Park,1989,411.6,68.9,22.57,False,14,23,9,49
+Cardiff Bute Park,1990,269.7,58.4,21.73,False,4,18,14,49
+Cardiff Bute Park,1991,439.6,83.3,19.90,False,19,30,40,49
+Cardiff Bute Park,1992,504.5,90.3,20.87,False,30,33,30,49
+Cardiff Bute Park,1993,419.4,135.7,20.07,False,15,43,37,49
+Cardiff Bute Park,1994,477.8,44.5,20.97,False,23,15,24,49
+Cardiff Bute Park,1995,243.8,44.2,23.23,False,2,14,3,49
+Cardiff Bute Park,1996,432.2,49.1,21.60,False,18,17,15,49
+Cardiff Bute Park,1997,568.0,42.6,21.43,False,40,13,20,49
+Cardiff Bute Park,1998,627.1,66.9,19.60,False,46,21,43,49
+Cardiff Bute Park,1999,542.3,12.9,21.17,False,35,2,22,49
+Cardiff Bute Park,2000,495.5,74.5,20.97,False,29,27,24,49
+Cardiff Bute Park,2001,611.9,144.6,20.97,False,44,45,24,49
+Cardiff Bute Park,2002,467.4,65.9,20.20,False,20,20,34,49
+Cardiff Bute Park,2003,388.9,93.9,22.60,False,11,34,8,49
+Cardiff Bute Park,2004,489.5,82.5,21.40,False,27,29,21,49
+Cardiff Bute Park,2005,406.5,69.9,21.57,False,13,25,18,49
+Cardiff Bute Park,2006,488.0,65.6,22.83,False,26,19,7,49
+Cardiff Bute Park,2007,589.6,173.8,20.17,False,42,47,36,49
+Cardiff Bute Park,2008,626.3,138.4,20.40,False,45,44,33,49
+Cardiff Bute Park,2009,558.2,194.1,20.63,False,37,49,32,49
+Cardiff Bute Park,2010,384.3,88,21.50,False,10,32,19,49
+Cardiff Bute Park,2011,318.3,80.6,19.77,False,6,28,41,49
+Cardiff Bute Park,2012,675.4,123.2,19.63,False,48,42,42,49
+Cardiff Bute Park,2013,381.7,25.9,22.03,False,9,7,11,49
+Cardiff Bute Park,2014,598.9,39.8,21.60,False,43,12,15,49
+Cardiff Bute Park,2015,508.2,107.6,20.03,False,31,39,38,49
+Cardiff Bute Park,2016,482.4,25.2,20.93,False,25,6,27,49
+Cardiff Bute Park,2017,476.0,116.8,20.93,False,22,41,27,49
+Cardiff Bute Park,2018,533.2,46,23.13,False,34,16,5,49
+Cardiff Bute Park,2019,581.4,83.6,21.60,False,41,31,15,49
+Cardiff Bute Park,2020,561.8,98.4,21.10,False,38,37,23,49
+Cardiff Bute Park,2021,517.8,101.8,21.87,False,32,38,12,49
+Cardiff Bute Park,2022,283.2,13,23.27,False,5,3,2,49
+Cardiff Bute Park,2023,687.8,185.6,21.87,False,49,48,12,49
+Cardiff Bute Park,2024,553.2,95.8,20.90,False,36,35,29,49
+Cardiff Bute Park,2025,255.1,31.7,23.17,False,3,10,4,49
+Cardiff Bute Park,2026,331.4,4.2,24.67,True,7,1,1,49
+Yeovilton,1965,454.0,155.2,19.20,False,60,62,61,62
+Yeovilton,1966,399.1,54.8,20.10,False,56,35,42,62
+Yeovilton,1967,333.3,65.2,20.83,False,33,41,33,62
+Yeovilton,1968,334.2,89.1,20.10,False,35,52,42,62
+Yeovilton,1969,334.6,81.9,20.80,False,36,49,34,62
+Yeovilton,1970,299.4,55.9,20.97,False,23,36,31,62
+Yeovilton,1971,375.5,28,20.30,False,52,15,40,62
+Yeovilton,1972,351.4,35.1,19.00,False,39,20,62,62
+Yeovilton,1973,372.6,99.4,20.77,False,50,58,35,62
+Yeovilton,1974,315.1,23.5,19.67,False,30,14,54,62
+Yeovilton,1975,319.7,99.9,22.87,False,32,59,9,62
+Yeovilton,1976,145.7,19.7,24.40,False,2,10,2,62
+Yeovilton,1977,381.6,50.5,19.27,False,53,31,58,62
+Yeovilton,1978,298.4,87.4,19.27,False,21,51,58,62
+Yeovilton,1979,499.4,39,19.80,False,61,23,51,62
+Yeovilton,1980,405.3,58,19.27,False,57,38,58,62
+Yeovilton,1981,288.0,50,20.10,False,18,30,42,62
+Yeovilton,1982,357.7,85.1,20.93,False,42,50,32,62
+Yeovilton,1983,279.6,14.4,23.40,False,16,6,7,62
+Yeovilton,1984,184.3,23.1,22.47,False,6,13,12,62
+Yeovilton,1985,308.7,41.5,19.40,False,28,26,56,62
+Yeovilton,1986,374.7,42.4,19.77,False,51,27,53,62
+Yeovilton,1987,278.9,32.5,19.97,False,15,19,45,62
+Yeovilton,1988,358.9,132.7,19.30,False,43,61,57,62
+Yeovilton,1989,281.3,73.7,22.53,False,17,46,11,62
+Yeovilton,1990,180.0,22.1,21.80,False,5,11,16,62
+Yeovilton,1991,364.3,77.4,19.80,False,47,47,51,62
+Yeovilton,1992,360.3,54.7,20.73,False,45,34,36,62
+Yeovilton,1993,296.1,62.6,20.30,False,20,39,40,62
+Yeovilton,1994,302.9,38.9,21.40,False,26,22,22,62
+Yeovilton,1995,156.6,16,23.70,False,3,8,5,62
+Yeovilton,1996,248.5,17.2,21.47,False,13,9,19,62
+Yeovilton,1997,359.2,30.3,21.43,False,44,17,20,62
+Yeovilton,1998,349.1,48.2,19.83,False,38,28,50,62
+Yeovilton,1999,362.0,10,21.17,False,46,3,28,62
+Yeovilton,2000,345.2,53.8,20.63,False,37,32,37,62
+Yeovilton,2001,354.2,81.4,21.13,False,40,48,29,62
+Yeovilton,2002,354.2,63.6,19.87,False,40,40,48,62
+Yeovilton,2003,233.4,70,22.60,False,9,45,10,62
+Yeovilton,2004,301.3,48.4,21.23,False,25,29,26,62
+Yeovilton,2005,369.4,54.4,21.63,False,48,33,17,62
+Yeovilton,2006,244.4,29.9,23.07,False,11,16,8,62
+Yeovilton,2007,396.0,98.8,19.93,False,55,57,46,62
+Yeovilton,2008,414.5,93.4,19.87,False,58,54,48,62
+Yeovilton,2009,299.9,111.2,20.43,False,24,60,39,62
+Yeovilton,2010,247.2,22.4,21.63,False,12,12,17,62
+Yeovilton,2011,234.0,30.4,19.90,False,10,18,47,62
+Yeovilton,2012,511.2,94.2,19.47,False,62,55,55,62
+Yeovilton,2013,190.3,40.4,22.23,False,7,25,13,62
+Yeovilton,2014,370.6,56.8,21.27,False,49,37,25,62
+Yeovilton,2015,294.9,66.6,20.53,False,19,42,38,62
+Yeovilton,2016,333.8,4.4,21.33,False,34,2,24,62
+Yeovilton,2017,309.0,68,21.20,False,29,43,27,62
+Yeovilton,2018,298.4,13.8,23.77,False,21,5,4,62
+Yeovilton,2019,257.4,14.8,22.00,False,14,7,14,62
+Yeovilton,2020,318.4,40.2,21.43,False,31,24,20,62
+Yeovilton,2021,306.4,91,21.40,False,27,53,22,62
+Yeovilton,2022,225.6,11.4,23.53,False,8,4,6,62
+Yeovilton,2023,416.8,96,21.83,False,59,56,15,62
+Yeovilton,2024,382.6,69,21.10,False,54,44,30,62
+Yeovilton,2025,139.2,36.4,23.90,False,1,21,3,62
+Yeovilton,2026,162.8,2.2,25.30,True,4,1,1,62

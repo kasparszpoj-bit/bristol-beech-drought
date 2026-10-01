@@ -1,0 +1,32 @@
+# Environments and caches
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Downloaded and derived data are rebuilt by the pipeline, never committed
+/data/
+
+# QGIS backups
+*.qgs~
+*.qgz~
+
+# Anything private. The garden case study lives outside this repo in
+# ../_private/, but guard against copies landing here by mistake.
+private/
+*private*
+*case_study*
+
+# QField: the phone package and field photos are rebuilt or large
+qfield/*.zip
+qfield/**/DCIM/
+
+# Public files about the case study: readings and code only, no location.
+!src/beech/case_study.py
+!outputs/figures/fig06_case_study.png
+!powerbi/data/case_study.csv
+
+# Power BI: commit the report and screenshots, not autosave files
+*.pbix.bak

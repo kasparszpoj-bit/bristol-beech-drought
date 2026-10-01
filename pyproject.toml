@@ -1,0 +1,43 @@
+[project]
+name = "beech"
+version = "0.1.0"
+description = "Bristol's beeches and the 2026 drought: PostGIS, QGIS and Sentinel-2"
+requires-python = ">=3.12"
+
+dependencies = [
+    "requests>=2.32",
+    "psycopg[binary]>=3.2",
+    "pandas>=2.2",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+beech-apply-sql = "beech.db:apply_sql_cli"
+beech-ingest-register = "beech.ingest_register:main"
+beech-load-field-returns = "beech.qfield:returns_main"
+beech-crown-indices = "beech.crown_indices:main"
+beech-case-study = "beech.case_study:main"
+beech-checks = "beech.checks:main"
+beech-canopy-cover = "beech.canopy_cover:main"
+beech-grass-reference = "beech.grass_reference:main"
+beech-ground-reference = "beech.ground_reference:main"
+beech-analysis = "beech.analysis:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88

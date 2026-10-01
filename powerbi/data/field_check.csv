@@ -1,0 +1,62 @@
+tree_no,asset_id,stratum,species,size_class,visited,found,species_ok,thinning_class,browning_class,dieback,leaf_fall,nut_crop,fungus,stressed,compared,excluded_reason,change_red_edge_2026,change_moisture_2026,change_greenness_2026
+1,PK43169,lime 50 cm and over,lime,4: 80 cm and over,True,found,yes,0.0,1.0,branches,none,none,none,True,True,,,,
+2,PK43170,lime 50 cm and over,lime,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,none,none,none,False,True,,,,
+3,PK40967,beech 20 to 49 cm,beech,2: 20 to 49 cm,True,found,yes,0.0,1.0,none,some,light,none,False,True,,,,
+4,PK41045,lime 50 cm and over,lime,4: 80 cm and over,True,found,yes,1.0,1.0,twigs,some,none,none,False,True,,-0.0565,-0.0332,-0.0375
+5,PK41160,lime 50 cm and over,lime,3: 50 to 79 cm,True,found,yes,1.0,1.0,none,some,none,none,False,True,,,,
+6,PK41505,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,1.0,1.0,none,heavy,heavy,none,False,True,,-0.0792,-0.0817,-0.0625
+7,PK30867,oak 50 cm and over,oak,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,none,none,none,False,True,,,,
+8,PK30851,beech 20 to 49 cm,beech,2: 20 to 49 cm,True,missing,,,,,,,,,False,,,,
+9,PK41347,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,1.0,0.0,none,some,none,none,False,True,,-0.2586,-0.2605,-0.1763
+10,PK41290,beech 80 cm and over,beech,4: 80 cm and over,True,found,unsure,4.0,4.0,none,none,none,meripilus,True,False,Dead monolith: the crown was cut off some time before 2026 and giant polypore fruits in a ring around the trunk. The register still lists it as a live 100 cm beech.,,,
+11,PK41148,lime 50 cm and over,lime,4: 80 cm and over,True,found,yes,1.0,0.0,none,some,none,none,False,True,,-0.0700,-0.0525,-0.0283
+12,PK41267,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0610,-0.0432,-0.0643
+13,PK41604,beech 20 to 49 cm,beech,2: 20 to 49 cm,False,,,,,,,,,,,,,,
+14,PK41358,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,1.0,1.0,branches,some,none,none,True,True,,-0.2173,-0.2471,-0.1492
+15,PK41656,beech 80 cm and over,beech,4: 80 cm and over,False,,,,,,,,,,,,,,
+16,PK00079701,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,2.0,1.0,twigs,heavy,heavy,none,True,True,,,,
+17,PK31092,lime 50 cm and over,lime,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,some,none,none,False,True,,,,
+18,PK41790,beech 20 to 49 cm,beech,2: 20 to 49 cm,False,,,,,,,,,,,,,,
+19,PK41802,beech 20 to 49 cm,beech,2: 20 to 49 cm,False,,,,,,,,,,,,,,
+20,PK41886,oak 50 cm and over,oak,4: 80 cm and over,False,,,,,,,,,,,,-0.1045,-0.0893,-0.0441
+21,PK42371,oak 50 cm and over,oak,4: 80 cm and over,False,,,,,,,,,,,,0.0044,-0.0418,-0.0249
+22,PK41815,beech 20 to 49 cm,beech,2: 20 to 49 cm,False,,,,,,,,,,,,,,
+23,PK31136,oak 50 cm and over,oak,4: 80 cm and over,False,,,,,,,,,,,,-0.1088,-0.0855,-0.0557
+24,PK41825,beech 20 to 49 cm,beech,2: 20 to 49 cm,False,,,,,,,,,,,,,,
+25,PK41832,oak 50 cm and over,oak,4: 80 cm and over,False,,,,,,,,,,,,,,
+26,PK31001,oak 50 cm and over,oak,3: 50 to 79 cm,False,,,,,,,,,,,,,,
+27,PK00079707,beech 20 to 49 cm,beech,2: 20 to 49 cm,True,found,yes,0.0,1.0,none,some,light,none,False,True,,,,
+28,PK42758,oak 50 cm and over,oak,4: 80 cm and over,True,found,yes,0.0,0.0,none,none,none,none,False,True,,0.0700,-0.0734,0.1092
+29,PK42745,lime 50 cm and over,lime,4: 80 cm and over,True,found,yes,0.0,1.0,none,some,none,none,False,True,,,,
+30,PK42732,lime 50 cm and over,lime,4: 80 cm and over,True,found,yes,0.0,0.0,none,some,none,none,False,True,,,,
+31,PK42485,oak 50 cm and over,oak,4: 80 cm and over,True,found,yes,2.0,2.0,limbs,some,none,none,True,True,,-0.0185,-0.0195,0.0122
+32,PK31165,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,none,light,none,False,True,,-0.0581,-0.0840,-0.0402
+33,PK31166,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0482,-0.0580,-0.0221
+34,PK42491,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,some,light,none,False,True,,,,
+35,PK42492,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,heavy,light,none,False,True,,-0.0670,-0.0523,-0.0405
+36,PK42496,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0378,-0.0483,-0.0177
+37,PK31171,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,2.0,1.0,branches,some,heavy,none,True,True,,,,
+38,PK31172,beech 20 to 49 cm,beech,2: 20 to 49 cm,True,found,yes,0.0,1.0,none,some,heavy,none,False,True,,,,
+39,PK42498,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0409,-0.0470,-0.0059
+40,PK42503,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0738,-0.0699,0.0106
+41,PK31177,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0375,-0.0488,-0.0197
+42,PK31182,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,1.0,1.0,branches,some,light,none,True,True,,-0.0744,-0.0938,-0.0701
+43,PK31184,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,0.0,1.0,twigs,some,heavy,none,False,True,,-0.0772,-0.0965,-0.0590
+44,PK42513,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0740,-0.0876,-0.0613
+45,PK42512,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0891,-0.0795,-0.0917
+46,PK42515,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0679,-0.0995,-0.0734
+47,PK42517,beech 80 cm and over,beech,4: 80 cm and over,True,found,yes,2.0,0.0,none,some,light,none,True,True,,-0.0743,-0.0887,-0.0797
+48,PK42524,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,some,light,none,False,True,,-0.0495,-0.0876,-0.0494
+49,PK42538,beech 20 to 49 cm,beech,2: 20 to 49 cm,True,found,yes,0.0,0.0,none,none,light,none,False,True,,,,
+50,PK42545,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,0.0,0.0,none,some,heavy,none,False,True,,-0.0624,-0.0962,-0.0822
+51,PK42552,beech 50 to 79 cm,beech,3: 50 to 79 cm,True,found,yes,2.0,2.0,none,heavy,heavy,none,True,True,,,,
+52,PK42667,beech 50 to 79 cm,beech,3: 50 to 79 cm,False,,,,,,,,,,,,-0.1169,-0.1124,-0.0861
+53,PK42638,beech 80 cm and over,beech,4: 80 cm and over,False,,,,,,,,,,,,-0.0828,-0.1126,-0.0586
+54,PK31512,"beech, nearby parks",beech,4: 80 cm and over,False,,,,,,,,,,,,-0.0642,-0.0197,-0.0357
+55,PK00088867,"beech, nearby parks",beech,4: 80 cm and over,False,,,,,,,,,,,,-0.0498,-0.0505,-0.0185
+56,PK00218283,"beech, nearby parks",beech,4: 80 cm and over,False,,,,,,,,,,,,,,
+57,PK42402,sycamore 50 cm and over,sycamore,3: 50 to 79 cm,True,found,yes,1.0,1.0,none,some,none,none,False,True,,,,
+58,PK31254,sycamore 50 cm and over,sycamore,3: 50 to 79 cm,False,,,,,,,,,,,,,,
+59,PK31249,sycamore 50 cm and over,sycamore,3: 50 to 79 cm,False,,,,,,,,,,,,,,
+60,PK42578,sycamore 50 cm and over,sycamore,3: 50 to 79 cm,False,,,,,,,,,,,,,,
+61,PK42695,sycamore 50 cm and over,sycamore,4: 80 cm and over,False,,,,,,,,,,,,,,
