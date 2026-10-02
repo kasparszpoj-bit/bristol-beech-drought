@@ -1,0 +1,114 @@
+table tree_year
+	lineageTag: 208f8c60-eaf7-4e55-8998-755be9524d0b
+
+	/// Number of distinct tree crowns in the current filter.
+	measure Crowns = DISTINCTCOUNT ( tree_year[asset_id] )
+		formatString: 0
+		lineageTag: 76bd4728-8241-4a64-a094-5b8e5bfbb855
+
+	/// Median change in red edge (chlorophyll) from each tree's own normal years, July and August, ground removed. Negative = less than normal.
+	measure 'Median red edge change' = MEDIAN ( tree_year[change_red_edge] )
+		formatString: 0.000
+		lineageTag: eaa01f37-5c9f-4955-a9c0-1d54683a6c1a
+
+	/// Median change in leaf moisture (NDMI) from each tree's own normal years, ground removed.
+	measure 'Median moisture change' = MEDIAN ( tree_year[change_moisture] )
+		formatString: 0.000
+		lineageTag: 9d7037a1-d40e-4856-94da-eadd81154b4b
+
+	/// Median change in greenness (NDVI) from each tree's own normal years, ground removed.
+	measure 'Median greenness change' = MEDIAN ( tree_year[change_greenness] )
+		formatString: 0.000
+		lineageTag: 9c086eb8-5978-4352-b496-5084bcba7648
+
+	/// Share of crown-years whose red edge reading is below that tree's normal.
+	measure 'Share below normal' = DIVIDE ( CALCULATE ( COUNTROWS ( tree_year ), tree_year[change_red_edge] < 0 ), COUNTROWS ( tree_year ) )
+		formatString: 0%
+		lineageTag: 45d09edc-9d19-478d-85a1-de7b3fa28fec
+
+	column asset_id
+		dataType: string
+		lineageTag: 48a307f3-0659-41d4-98fc-4912db5c057f
+		summarizeBy: none
+		sourceColumn: asset_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 17ebf4e3-1c6b-4cfd-a343-d6696c571e5a
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = User
+
+	column clear_images
+		dataType: int64
+		formatString: 0
+		lineageTag: 328c9044-18ad-4a0d-b75f-0c8d22672e88
+		summarizeBy: sum
+		sourceColumn: clear_images
+
+		annotation SummarizationSetBy = Automatic
+
+	column change_greenness
+		dataType: double
+		lineageTag: 18383d4d-60d0-4c84-9840-ec290a4daed1
+		summarizeBy: sum
+		sourceColumn: change_greenness
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column change_moisture
+		dataType: double
+		lineageTag: 1abe18e0-6498-4451-9e97-3eb87638df23
+		summarizeBy: sum
+		sourceColumn: change_moisture
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column change_red_edge
+		dataType: double
+		lineageTag: 1766485e-dd82-4cfb-9d69-8537c4af6a45
+		summarizeBy: sum
+		sourceColumn: change_red_edge
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column change_greenness_raw
+		dataType: double
+		lineageTag: 44b04d5b-bfe6-4176-9c51-0895be59508c
+		summarizeBy: sum
+		sourceColumn: change_greenness_raw
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column change_band
+		dataType: string
+		lineageTag: b51d352a-0c74-4790-83ed-1826cef374a3
+		summarizeBy: none
+		sourceColumn: change_band
+
+		annotation SummarizationSetBy = Automatic
+
+	partition tree_year = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "tree_year.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"asset_id", type text}, {"year", Int64.Type}, {"clear_images", Int64.Type}, {"change_greenness", type number}, {"change_moisture", type number}, {"change_red_edge", type number}, {"change_greenness_raw", type number}, {"change_band", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

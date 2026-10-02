@@ -174,20 +174,21 @@ def crown_method():
         ("3  Crowns", "Beech orange, oak blue, others grey",
          [trees, crowns, blds, chm]),
     ]
-    size, pad, head = 820, 24, 90
-    img = QImage(3 * size + 4 * pad, size + head + 60, QImage.Format.Format_ARGB32)
+    # Text sized to stay readable when the figure is shown small (README, Power BI).
+    size, pad, head = 820, 24, 160
+    img = QImage(3 * size + 4 * pad, size + head + 80, QImage.Format.Format_ARGB32)
     img.fill(QColor("#fcfcfb"))
     p = QPainter(img)
     p.setRenderHint(QPainter.RenderHint.Antialiasing)
     for i, (title, sub, layers) in enumerate(panels):
         x = pad + i * (size + pad)
-        text(p, x, 10, size, 40, title, 17, INK, True)
-        text(p, x, 46, size, 34, sub, 13, INK_2)
+        text(p, x, 12, size, 70, title, 40, INK, True)
+        text(p, x, 88, size, 60, sub, 30, INK_2)
         p.drawImage(x, head, render(layers, ext, (size, size)))
-    text(p, pad, head + size + 10, 3 * size, 40,
+    text(p, pad, head + size + 12, 3 * size, 60,
          "Durdham Down, 300 m square. LIDAR: Environment Agency composite, 1 m. "
          "Buildings: OS OpenMap Local. Trees: Bristol City Council register.",
-         11, MUTED)
+         24, MUTED)
     p.end()
     out = FIG / "fig_crown_method.png"
     img.save(str(out))

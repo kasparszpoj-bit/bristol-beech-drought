@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "e85e6b011d5240b35510",
+  "position": {
+    "x": 40,
+    "y": 85,
+    "z": 1,
+    "width": 1840,
+    "height": 80,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Left: summer heat and rainfall at the two weather stations either side of Bristol, every year on record; 2026 was the hottest summer at both. Right: how Bristol's council trees responded each summer since 2018, measured from satellite images; below zero means less chlorophyll than in a tree's own normal years. Although the weather was extreme, the trees held up about as well as in the 2018 drought: more trees were affected in 2026, but not more deeply.",
+                    "textStyle": {
+                      "fontSize": "15pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

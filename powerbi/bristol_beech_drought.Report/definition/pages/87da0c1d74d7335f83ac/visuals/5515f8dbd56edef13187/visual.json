@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "5515f8dbd56edef13187",
+  "position": {
+    "x": 40,
+    "y": 85,
+    "z": 1,
+    "width": 1840,
+    "height": 80,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Council tree records, a LIDAR laser survey and 243 satellite images, combined in PostGIS and three QGIS models. Every tree is compared with itself in normal years, and the grass around it is removed from every reading.",
+                    "textStyle": {
+                      "fontSize": "15pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,85 @@
+table species_change
+	lineageTag: 599d5db2-7d03-463e-9719-8178b320d502
+
+	column species
+		dataType: string
+		lineageTag: 3dc5dc2d-bf0e-459c-bec3-07ce60c2138a
+		summarizeBy: none
+		sourceColumn: species
+
+		annotation SummarizationSetBy = Automatic
+
+	column crowns
+		dataType: int64
+		formatString: 0
+		lineageTag: d94bd355-af99-48f5-b509-a990bb9fb7ed
+		summarizeBy: sum
+		sourceColumn: crowns
+
+		annotation SummarizationSetBy = Automatic
+
+	column change_2018
+		dataType: double
+		formatString: 0.000
+		lineageTag: 9964d73e-de75-4701-93a3-22c5c9ee98d8
+		summarizeBy: sum
+		sourceColumn: change_2018
+
+		annotation SummarizationSetBy = Automatic
+
+	column change_2026
+		dataType: double
+		formatString: 0.000
+		lineageTag: 6443c25f-0f6a-4fb6-b08c-06340d7b4797
+		summarizeBy: sum
+		sourceColumn: change_2026
+
+		annotation SummarizationSetBy = Automatic
+
+	column difference
+		dataType: double
+		formatString: 0.000
+		lineageTag: 6af1e348-c55b-41c8-b1d9-450f4301ed14
+		summarizeBy: sum
+		sourceColumn: difference
+
+		annotation SummarizationSetBy = Automatic
+
+	column difference_lo
+		dataType: double
+		formatString: 0.000
+		lineageTag: 9055edcd-eba7-4849-ac60-f29c6ebe4d8a
+		summarizeBy: sum
+		sourceColumn: difference_lo
+
+		annotation SummarizationSetBy = Automatic
+
+	column difference_hi
+		dataType: double
+		formatString: 0.000
+		lineageTag: d2566d5a-fbe4-4caf-933e-94f44c3eb3f1
+		summarizeBy: sum
+		sourceColumn: difference_hi
+
+		annotation SummarizationSetBy = Automatic
+
+	column verdict
+		dataType: string
+		lineageTag: b03f0a04-831a-4bd6-bbbf-a83fe39a1d65
+		summarizeBy: none
+		sourceColumn: verdict
+
+		annotation SummarizationSetBy = Automatic
+
+	partition species_change = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "species_change.csv"),[Delimiter=",", Columns=8, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"species", type text}, {"crowns", Int64.Type}, {"change_2018", type number}, {"change_2026", type number}, {"difference", type number}, {"difference_lo", type number}, {"difference_hi", type number}, {"verdict", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

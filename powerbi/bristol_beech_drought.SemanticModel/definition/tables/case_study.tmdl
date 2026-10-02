@@ -1,0 +1,73 @@
+table case_study
+	lineageTag: fee03210-6490-4fee-82b9-8bac77fb2725
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: f4ddd54d-0d1d-45a6-9bda-442b8de9cbc8
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column clear_images
+		dataType: int64
+		formatString: 0
+		lineageTag: 56a9ee26-7f33-4203-81bf-22933bb85c00
+		summarizeBy: sum
+		sourceColumn: clear_images
+
+		annotation SummarizationSetBy = Automatic
+
+	column case_greenness
+		dataType: double
+		lineageTag: b1702ccf-34dd-4cb1-9431-aad7550a01bf
+		summarizeBy: sum
+		sourceColumn: case_greenness
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column case_red_edge
+		dataType: double
+		lineageTag: 160dff30-6272-414c-932d-90f44a6e4bd1
+		summarizeBy: sum
+		sourceColumn: case_red_edge
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column large_beech_greenness_median
+		dataType: double
+		lineageTag: 17ce464d-b2eb-460a-b551-ea15640924f3
+		summarizeBy: sum
+		sourceColumn: large_beech_greenness_median
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column large_beech_red_edge_median
+		dataType: double
+		lineageTag: 2293d83f-e0c4-4b95-9a88-aa2c5e6e08e4
+		summarizeBy: sum
+		sourceColumn: large_beech_red_edge_median
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition case_study = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "case_study.csv"),[Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"year", Int64.Type}, {"clear_images", Int64.Type}, {"case_greenness", type number}, {"case_red_edge", type number}, {"large_beech_greenness_median", type number}, {"large_beech_red_edge_median", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

@@ -43,7 +43,12 @@ SELECT y.asset_id, y.year, y.n_obs AS clear_images,
        round(y.d_ndvi::numeric, 4) AS change_greenness,
        round(y.d_ndmi::numeric, 4) AS change_moisture,
        round(y.d_ndre::numeric, 4) AS change_red_edge,
-       round(r.d_ndvi::numeric, 4) AS change_greenness_raw
+       round(r.d_ndvi::numeric, 4) AS change_greenness_raw,
+       -- Bands for colouring the map, on red edge change from normal.
+       CASE WHEN y.d_ndre < -0.08 THEN '1 Strong drop'
+            WHEN y.d_ndre < -0.03 THEN '2 Drop'
+            WHEN y.d_ndre <= 0.03 THEN '3 Near normal'
+            ELSE '4 Above normal' END AS change_band
 FROM analysis.crown_anomaly_unmixed y
 JOIN analysis.crown_analysable_unmixed a USING (asset_id)
 LEFT JOIN analysis.crown_anomaly r ON r.asset_id = y.asset_id AND r.year = y.year
@@ -53,9 +58,20 @@ ORDER BY y.asset_id, y.year
 WEATHER_SQL = """
 SELECT station, year, mar_aug_rain_mm AS growing_season_rain_mm,
        july_rain_mm, jja_mean_tmax_c AS summer_mean_max_c, provisional,
-       dry_rank_mar_aug, dry_rank_july, hot_rank_summer, n_years
+       dry_rank_mar_aug, dry_rank_july, hot_rank_summer, n_years,
+       CASE WHEN year = 2026 THEN '2026'
+            WHEN year IN (2018, 2022, 2025) THEN '2018, 2022, 2025'
+            ELSE 'Other years' END AS year_group,
+       station || ' ' || year AS station_year
 FROM analysis.season_climate ORDER BY station, year
 """
+
+
+def year_group(year: int) -> str:
+    """The colour group for the drought years chart."""
+    if year == 2026:
+        return "2026"
+    return "Known drought (2018, 2022)" if year in (2018, 2022) else "Other years"
 
 FIELD_SQL = """
 SELECT f.tree_no, f.asset_id, f.stratum, f.species_group AS species, f.size_class,
@@ -71,6 +87,26 @@ LEFT JOIN analysis.crown_anomaly_unmixed y
        ON y.asset_id = a.asset_id AND y.year = 2026
 ORDER BY f.tree_no
 """
+
+
+def whole_numbers(t: pd.DataFrame) -> pd.DataFrame:
+    """Write whole-number columns as 12, not 12.0, even where some are blank.
+
+    A column with blanks becomes a float in pandas and is written as "12.0",
+    which Power BI reads as text and will not convert to a whole number.
+    """
+    t = t.copy()
+    for c in t.columns:
+        values = t[c].dropna()
+        if t[c].dtype == bool or values.map(lambda v: isinstance(v, bool)).all():
+            continue  # true/false columns stay true/false, blanks and all
+        s = pd.to_numeric(t[c], errors="coerce") if t[c].dtype == object else t[c]
+        if not pd.api.types.is_numeric_dtype(s):
+            continue
+        filled = s.dropna()
+        if len(filled) and (filled == filled.round()).all() and s.notna().sum() == t[c].notna().sum():
+            t[c] = s.astype("Int64")
+    return t
 
 
 def grass_vs_trees() -> pd.DataFrame:
@@ -105,9 +141,12 @@ def main() -> None:
         "grass_vs_trees": grass_vs_trees(),
         "case_study": case_study(),
         "species_year": pd.read_csv(TABLES / "species.csv"),
-        "years": pd.read_csv(TABLES / "years.csv"),
+        "species_change": pd.read_csv(TABLES / "species_change.csv"),
+        "years": pd.read_csv(TABLES / "years.csv").assign(
+            year_group=lambda d: d.year.map(year_group)),
     }
     for name, t in tables.items():
+        t = whole_numbers(t)
         t.to_csv(OUT / f"{name}.csv", index=False)
         print(f"{name}.csv: {len(t):,} rows, {len(t.columns)} columns")
 

@@ -11,6 +11,7 @@ Writes outputs/tables/*.csv and prints them:
                        drive the ranking
   beech_vs_others.csv  2026 difference, beech minus the other species
   beech_size.csv       beech by trunk size class (the age proxy)
+  species_change.csv   2026 against 2018 by species, same trees, 95% intervals
 
 Medians throughout, because a few badly mixed crowns can produce extreme
 values. Bootstrap: 2,000 resamples, fixed seed, so reruns give the same
@@ -99,6 +100,33 @@ def beech_by_size(d: pd.DataFrame, seed: int = 2026) -> pd.DataFrame:
     return pd.DataFrame(rows).round(3)
 
 
+def species_change(d: pd.DataFrame, before: int = 2018, after: int = 2026,
+                   index: str = "d_ndre", seed: int = 2026) -> pd.DataFrame:
+    """Each species' change between two droughts, on the same trees.
+
+    Pairs every crown observed in both years, takes the median of its
+    2026 minus 2018 change, and bootstraps a 95% interval. Negative means
+    the species was more stressed in the later drought.
+    """
+    rng = np.random.default_rng(seed)
+    w = (d[d.year.isin([before, after])]
+         .pivot_table(index=["asset_id", "species"], columns="year", values=index)
+         .dropna().reset_index())
+    rows = []
+    for sp, g in w.groupby("species"):
+        diff = (g[after] - g[before]).to_numpy()
+        boot = np.median(rng.choice(diff, (N_BOOT, len(diff))), axis=1)
+        lo, hi = np.percentile(boot, 2.5), np.percentile(boot, 97.5)
+        verdict = ("Worse in 2026" if hi < 0 else "Better in 2026" if lo > 0
+                   else "No clear change")
+        rows.append({"species": sp, "crowns": len(g),
+                     f"change_{before}": g[before].median(),
+                     f"change_{after}": g[after].median(),
+                     "difference": np.median(diff), "difference_lo": lo,
+                     "difference_hi": hi, "verdict": verdict})
+    return pd.DataFrame(rows).round(3)
+
+
 def main() -> None:
     pd.set_option("display.width", 200)
     TABLES.mkdir(parents=True, exist_ok=True)
@@ -108,6 +136,7 @@ def main() -> None:
         "species": by_species(d),
         "beech_vs_others": beech_vs_others(d),
         "beech_size": beech_by_size(d),
+        "species_change": species_change(d),
     }
     for name, t in tables.items():
         t.to_csv(TABLES / f"{name}.csv", index=False)

@@ -1,0 +1,407 @@
+cultureInfo en-GB
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "weather.year_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "weather",
+			          "ConceptualProperty": "year_group"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Years": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "weather.station": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "weather",
+			          "ConceptualProperty": "station"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Weather station": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tree_year.share_below_normal": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tree_year",
+			          "ConceptualProperty": "Share below normal"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "below normal": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "of tree crowns read below their normal in 2026": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "of beeches read below their normal in 2026": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "years.year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "years",
+			          "ConceptualProperty": "year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "years.year_group": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "years",
+			          "ConceptualProperty": "year_group"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Years": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "grass_vs_trees.year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "grass_vs_trees",
+			          "ConceptualProperty": "year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "species_year.species": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "species_year",
+			          "ConceptualProperty": "species"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "species_change.species": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "species_change",
+			          "ConceptualProperty": "species"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Species": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "species_change.verdict": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "species_change",
+			          "ConceptualProperty": "verdict"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Verdict": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tree_year.year": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tree_year",
+			          "ConceptualProperty": "year"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Year": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tree_year.change_band": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tree_year",
+			          "ConceptualProperty": "change_band"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Change in red edge": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tree_year.median_red_edge_change": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tree_year",
+			          "ConceptualProperty": "Median red edge change"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Red edge change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "median change": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "tree_year.crowns": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "tree_year",
+			          "ConceptualProperty": "Crowns"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "trees": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "trees.asset_id": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "trees",
+			          "ConceptualProperty": "asset_id"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tree": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "trees.species": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "trees",
+			          "ConceptualProperty": "species"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Species": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "trees.site_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "trees",
+			          "ConceptualProperty": "site_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Site": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "trees.size_class": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "trees",
+			          "ConceptualProperty": "size_class"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Trunk size": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "trees.site_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "trees",
+			          "ConceptualProperty": "site_type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Site type": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

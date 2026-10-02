@@ -3,12 +3,20 @@
 How did Bristol's council-managed beeches, especially the big old ones, cope
 with the 2026 drought, and were they hit harder than other large trees?
 Satellite imagery, a LIDAR laser survey and the council's tree register,
-combined in PostGIS and QGIS, and checked against trees scored in the field.
+combined in PostGIS and QGIS.
+
+**[Explore the interactive map](https://kasparszpoj-bit.github.io/bristol-beech-drought/)**:
+1,927 large council trees, each coloured by how far its leaf chlorophyll
+fell compared with its own normal summers. Step through the years from 2018
+to 2026, filter by species, size and setting, zoom in to see each crown as
+mapped from LIDAR, and click any tree for its history.
+
+[![The interactive web map: Bristol's council trees coloured by their 2026 change in red edge](outputs/figures/web_map.png)](https://kasparszpoj-bit.github.io/bristol-beech-drought/)
 
 **Author:** Kaspar Szpojnarowicz
-**Status:** Phase 1, the initial analysis, complete (1 October 2026). Phase 2
-(an inspection list for at-risk beeches, response clusters, a web map) is
-next; see [What comes next](#what-comes-next).
+**Status:** Phase 1, the desk analysis and report, complete (2 October
+2026). Phase 2, checking the results on the ground and finding real giant
+polypore cases, runs from October 2026 to summer 2027.
 
 | | |
 |---|---|
@@ -16,13 +24,23 @@ next; see [What comes next](#what-comes-next).
 | Trees | Bristol City Council's register: 56,581 trees; 8,623 large comparison trees mapped as crowns; 1,927 analysable, 195 of them beech |
 | Data | Council tree register, Sentinel-2 imagery 2018 to 2026 (243 images), Environment Agency 1 m LIDAR, Met Office station records, a field survey |
 | Methods | SQL cleaning and QA, crown mapping from LIDAR, three QGIS Processing models, satellite indices per crown, mixed pixel correction, bootstrap comparisons |
-| Tools | PostgreSQL and PostGIS, QGIS (Graphical Modeler, run headless), Python, QField, Power BI |
+| Tools | PostgreSQL and PostGIS, QGIS (Graphical Modeler, run headless), Python, MapLibre, Power BI, QField |
+| Outputs | This write-up, an [interactive web map](https://kasparszpoj-bit.github.io/bristol-beech-drought/), a [four-page Power BI report](#the-power-bi-report), three QGIS models |
+
+## The project in two phases
+
+| Phase | Question | Status |
+|---|---|---|
+| **1. Desk analysis and report** | What does the satellite show about how Bristol's trees, and beech in particular, coped with 2026? | Complete: findings, figures, web map, Power BI report |
+| **2. Ground truth and giant polypore cases** | Is the satellite right on the ground, and does it pick out trees with giant polypore? | Started: a pilot field walk on 30 September 2026 and the first confirmed case on 2 October |
 
 **Contents:** [The tree that started it](#the-tree-that-started-it) ·
 [Key findings](#key-findings) · [Data](#data) · [Method](#method) ·
-[Results](#results) · [Limitations](#limitations) ·
+[Results](#results) · [Web map](#the-interactive-web-map) ·
+[Power BI report](#the-power-bi-report) · [Limitations](#limitations) ·
 [Decisions and trade-offs](#decisions-and-trade-offs) ·
-[What comes next](#what-comes-next) · [Reproduce it](#reproduce-it)
+[Phase 2](#phase-2-ground-truth-and-giant-polypore-cases) ·
+[Reproduce it](#reproduce-it)
 
 ## The tree that started it
 
@@ -49,7 +67,7 @@ trees? The garden tree runs through the project as a case study, and its
 log at the end of the results will be updated as its story develops. Its
 location is deliberately withheld.
 
-# Phase 1: initial analysis
+# Phase 1: desk analysis and report
 
 ## Key findings
 
@@ -57,16 +75,22 @@ Each finding compares a tree's July and August satellite readings with the
 same tree's own normal years (2019 to 2021, 2023, 2024), after removing the
 ground's share of every reading.
 
-1. **2026 stressed Bristol's trees inside the leaves, not visibly.** Canopy
-   greenness barely fell, but red edge (a measure of chlorophyll) fell below
-   normal in 84% of crowns, the highest share of any year since 2018, and
-   leaf moisture fell too. On the ground in late September, crowns looked
-   healthy. (Figure 6)
-2. **Beech was among the hardest hit, with oak and sycamore; lime and plane
-   were much less affected.** Median red edge change in 2026: beech −0.063
-   (95% interval −0.069 to −0.056), sycamore −0.052, oak −0.049, lime
-   −0.034, plane −0.027. In the 2018 drought oak was hit hardest; in 2026
-   beech moved to the top of the group. (Figure 8)
+1. **2026 was hotter than 2018, but most trees coped no worse.** Across all
+   five species, the 2026 fall in red edge (a measure of chlorophyll) was
+   the same size as in 2018 (difference +0.001, 95% interval −0.001 to
+   +0.004), and greenness and leaf moisture fell less than in 2018. The
+   2026 stress was widespread but shallow: 84% of crowns read below normal
+   on red edge, the highest share of any year, yet greenness barely fell,
+   and on the ground in late September crowns looked healthy. (Figure 6)
+2. **Beech was the exception: the only species clearly worse in 2026 than
+   in 2018.** Comparing the same 195 beeches in both droughts, their red
+   edge fell 0.012 further in 2026 (95% interval 0.004 to 0.028), while oak
+   fared clearly better (0.012 less) and lime, plane and sycamore were
+   unchanged. In 2018 oak was hit hardest; in 2026 beech was, at −0.063
+   (95% interval −0.069 to −0.056), ahead of sycamore −0.052, oak −0.049,
+   lime −0.034 and plane −0.027. Beech's shallow roots and two dry growing
+   seasons in a row (2025 and 2026) are a likely explanation, not a tested
+   one. (Figure 8)
 3. **The oldest beeches were not clearly worse.** Beeches with trunks of
    80 cm and over read −0.064, those of 50 to 79 cm −0.050, with
    overlapping intervals; in 2018 the largest were the least affected.
@@ -106,7 +130,7 @@ trees were hit hardest helps a council decide where to look first.
 | OS OpenMap Local | Building footprints and roads | 2026 | OGL 3.0 |
 | Met Office historic station data | Monthly rain and temperature, Yeovilton and Cardiff Bute Park | 1964 to 2026 | Open |
 | ONS local authority boundaries | Bristol boundary | May 2026 | OGL 3.0 |
-| Field survey (QField) | Crown condition of 41 randomly drawn trees | 30 Sept 2026 | This project |
+| Field survey (QField) | Crown condition of 41 randomly drawn trees, a pilot for Phase 2 | 30 Sept 2026 | This project |
 
 Data quality detail, including everything found wrong with the register, is
 in [docs/data_quality_register.md](docs/data_quality_register.md).
@@ -132,9 +156,9 @@ order and with its reasons, in [docs/project_log.md](docs/project_log.md).
 5. **Each tree against its own normal.** The July and August median each
    year, against the median of the normal years; 2018 and 2022 are known
    drought years that test the method.
-6. **Comparisons and a field check.** Species and size compared with
-   bootstrap intervals, also among crowns of similar canopy share; a
-   stratified random sample of trees scored in the field with QField.
+6. **Comparisons.** Species and size compared with bootstrap intervals,
+   also among crowns of similar canopy share. A pilot field check with
+   QField tested the method; Phase 2 takes it further.
 
 ![Bristol's council beeches by trunk size](outputs/figures/fig_study_area.png)
 
@@ -180,7 +204,9 @@ straight after 2025, the driest growing season on record at Yeovilton.
 
 Before trusting anything about 2026, the method had to find the droughts we
 already know about. It does: 2018 and 2022 both read below normal, 2018 most
-strongly. 2026 put the most crowns below their normal of any year (84%).
+strongly. 2026 is close to 2018 in depth (median −0.037 against −0.041, a
+difference within the uncertainty) and put the most crowns below their
+normal of any year (84%): more trees affected, but not more deeply.
 
 ![Change in red edge from normal, every year](outputs/figures/fig02_years.png)
 
@@ -227,34 +253,23 @@ partly estimated, so it is used in broad classes.
 *Figure 9. Change in red edge for council beeches by trunk size, 2018 and
 2026, with 95% intervals.*
 
-### The field check
+### A pilot field check
 
-On 30 September 2026, 41 of 61 randomly drawn trees on Clifton and Durdham
-Downs were scored with QField, using the ICP Forests crown condition
-classes. **On the ground the trees were broadly healthy:** mean crown
-thinning sat between "none" and "slight", and 8 of the 39 trees compared
-showed any visible stress (6 of 27 beeches, 1 of 8 limes, 1 of 3 oaks).
-Several thinner beech crowns carried a heavy nut crop, which thins beech
-crowns in its own right.
-
-What the walk added:
+On 30 September 2026, 41 randomly drawn trees on Clifton and Durdham Downs
+were scored with QField, as a pilot for Phase 2. On the ground the trees
+were broadly healthy: 8 of the 39 trees compared showed any visible stress.
+The walk earned its place in Phase 1 twice over:
 
 - **It caught the raw satellite readings being wrong.** They showed almost
-  every Downs tree as badly stressed, against healthy crowns on the ground;
-  that mismatch led to the grass check and the correction.
-- **It agrees in direction with the corrected readings.** 23 scored trees
-  have usable readings, 4 of them scored as stressed; the stressed trees
-  read lower (red edge −0.074 against −0.062), rank correlation with crown
-  thinning −0.32. Too few stressed trees to confirm it statistically.
-- **It tested the register.** 40 of 41 trees were where the register said,
-  39 of 40 the right species. One "live" 100 cm beech (tree 10) is a dead
-  monolith, its crown cut off, with giant polypore fruiting in a ring around
-  the trunk.
-- **It showed the satellite's limits for single trees.** Tree 10's pixels
-  kept reading green long after its crown came off (its cut ends were grey
-  and weathered), because neighbouring canopy and scrub filled them. Two
-  scored trees disagree outright with their readings. At 10 m the satellite
-  works across many trees, not tree by tree.
+  every Downs tree as badly stressed, against healthy crowns on the ground.
+  That mismatch led to the grass check and the correction above.
+- **It agrees in direction with the corrected readings.** The 4 stressed
+  trees with usable readings read lower (red edge −0.074 against −0.062),
+  and the rank correlation with crown thinning is −0.32. Too few trees to
+  confirm it, which is what Phase 2 is for.
+
+The full pilot results are under
+[Phase 2](#what-the-pilot-walk-found-so-far).
 
 ### The garden tree: case study log
 
@@ -278,6 +293,62 @@ clear images that summer.*
 | September 2026 | Fruiting bodies all around the base, from the trunk out to about 2 m, recorded and photographed |
 | September 2026 | A consultant arboriculturist (a Registered Consultant of the Arboricultural Association) reviewed photos and video. Advice: the number of fruiting bodies is not a direct measure of how much root is decayed, so the tree may not yet be structurally compromised, but the decay will progress. Options offered: a dynamic stability assessment (sensors measuring how the tree moves in wind), or removal and replanting. **Decision pending.** |
 
+## The interactive web map
+
+**[Open the map](https://kasparszpoj-bit.github.io/bristol-beech-drought/)**.
+Built for this project with MapLibre GL JS and hosted on GitHub Pages from
+[web/](web/), so anyone can use it without an account or an install.
+
+- Every analysable council tree (1,927), coloured by its change in red edge
+  from its own normal, in the same bands as the Power BI report.
+- Year buttons and a play control to step through 2018 to 2026, with the
+  drought years marked.
+- Filters for species, trunk size and setting. The headline numbers and a
+  species chart update as you filter; click a species to show or hide it.
+- Crowns as mapped from LIDAR once you zoom in, on a street map or aerial
+  imagery, and a search for any park or street.
+- Click a tree for its details and its year by year history.
+
+`beech-web-export` writes the three GeoJSON files (trees, crowns, Bristol
+boundary) straight from PostGIS. Council trees only: nothing is read from
+the private schema, so the garden tree cannot appear.
+
+![Zoomed in on Ashton Court: LIDAR crowns over aerial imagery, and one beech's history](outputs/figures/web_map_crowns.png)
+
+*Figure 11. The web map zoomed in on Ashton Court, on aerial imagery. Each
+crown is drawn from LIDAR and coloured by its 2026 change; the selected
+beech read below its normal in 2018 and fell further in 2026.*
+
+## The Power BI report
+
+Four pages, saved as a Power BI project (`.pbip`) in [powerbi/](powerbi/), so
+the model and every visual are text files under version control. The page
+layouts are generated by Python (`beech-powerbi-report`), and every number
+was checked against the Python analysis with DAX queries. How to open it,
+and how it is built: [powerbi/README.md](powerbi/README.md).
+
+![Power BI page 1: tree explorer](powerbi/screenshots/1_tree_explorer.png)
+
+*Page 1, tree explorer. Opens on beech in 2026; slicers for year, species,
+trunk size and site type, and the most affected trees. Power BI's own map
+visuals need a work or school sign-in, so the trees are drawn over a
+basemap rendered in QGIS for exactly the chart's axis range.*
+
+![Power BI page 2: drought](powerbi/screenshots/2_drought.png)
+
+*Page 2, drought. 2026 against every summer on record at two stations, and
+the trees' response each year since 2018.*
+
+![Power BI page 3: methods](powerbi/screenshots/3_methods.png)
+
+*Page 3, methods. How a crown is drawn, the six steps, why the ground had to
+be removed, and the checks that the method works.*
+
+![Power BI page 4: main findings](powerbi/screenshots/4_main_findings.png)
+
+*Page 4, main findings. Beech against the other four species in 2018 and
+2026, and the change between them for the same trees.*
+
 ## Limitations
 
 - **Pixel size.** At 10 m most crowns are a few mixed pixels. The ground
@@ -288,8 +359,9 @@ clear images that summer.*
   from the ground, and the field survey was in late September against
   July and August readings, so close tree-by-tree agreement was never
   likely.
-- **Small field sample.** 39 trees compared, 4 of them stressed, only 3
-  oaks: enough to catch a broken method, not to test species differences.
+- **Small pilot field sample.** 39 trees compared, 4 of them stressed,
+  only 3 oaks: enough to catch a broken method, not to test species
+  differences. Phase 2 extends it.
 - **Age is a proxy.** Trunk diameters are partly estimated (they cluster on
   round numbers), so they are used only in broad classes.
 - **Correlation, not cause.** Street trees may be watered, soils differ,
@@ -365,6 +437,18 @@ The choices that shaped the results, and why.
 - **Download only what is needed.** Only the 1 km LIDAR squares holding
   large trees (plus neighbours) were fetched, not the whole city.
 
+**Reporting**
+
+- **A web map as well as Power BI.** Power BI's map visuals need a work or
+  school account, so its tree explorer draws trees over a QGIS-rendered
+  basemap. The web map, open to anyone, is the fully interactive one.
+- **The report as code.** Pages written as JSON by Python and the model in
+  TMDL, so the report can be rebuilt, reviewed and versioned like the rest.
+- **Check the joins, not just the visuals.** Power BI read the first IDs as
+  numbers and silently dropped most readings from their trees; a distinct
+  count against the database caught it. Every figure on the pages was then
+  reconciled with the analysis.
+
 **Field**
 
 - **Field trees picked at random, not by eye.** Choosing trees that looked
@@ -379,19 +463,78 @@ The choices that shaped the results, and why.
 - **Healthy trees are a result too.** A method that reported widespread
   damage on trees that looked healthy would be wrong.
 
-# What comes next
+# Phase 2: ground truth and giant polypore cases
 
-Phase 2 builds on these results:
+Phase 1 shows what the satellite sees. Phase 2 asks whether it is right on
+the ground, and whether it can pick out trees with giant polypore. It runs
+from October 2026 to summer 2027.
 
-1. **Which beeches to inspect.** Large beeches showing 2026 stress, near
+1. **Ground truth with QField.** Finish the random field sample (61 trees
+   drawn, 41 scored so far), check the scoring by rescoring some trees
+   blind, and test properly whether trees scored as stressed read lower on
+   the satellite.
+2. **Real giant polypore cases.** Do infected beeches show the same
+   satellite signal as the garden tree? Three sources of fungus records:
+   - **NBN Atlas** records of *Meripilus giganteus*.
+   - **Bristol's FixMyStreet**, where the public reports trees by category
+     ("Tree in poor health"), with dates, locations and photos. Matched to
+     register trees by location, these show which stressed beeches the
+     council already knows about, and which nobody has reported. Locations,
+     dates and categories only; never reporters' names.
+   - **Field sightings** outside the random sample, recorded separately so
+     they cannot bias the field check (`raw.opportunistic_obs`).
+
+   *The first case.* On 2 October 2026 a large beech at the Grenville Road
+   edge of St Andrews Park (council tree PK31500) had lost most of its
+   leaves and had giant polypore at its base. A member of the public had
+   already reported the fungus on FixMyStreet on 15 September; the council
+   investigated and passed it to its contractors on 25 September. On the
+   satellite its 2026 greenness fell more than three quarters of the
+   city's beeches, but less than the crown loss seen on the ground: the
+   July and August window misses September leaf loss, and evergreen yews
+   5 to 9 m away keep its mixed pixels green. So Phase 2 also adds
+   September images for late-season damage. The register records it as a
+   green beech with no trunk diameter; it was reported as a copper beech,
+   still to be confirmed.
+3. **Which beeches to inspect.** Large beeches showing 2026 stress, near
    giant polypore records, with a road or building within falling distance:
    a short ranked list for a tree officer.
-2. **Response clusters.** Grouping trees by how they responded from 2018 to
+4. **Response clusters.** Grouping trees by how they responded from 2018 to
    2026, and where the garden tree falls.
-3. **Power BI report** on the tables in [powerbi/](powerbi/).
-4. **Web map** of the 2026 results.
-5. **A 2027 re-score** of the field sample, to catch drought damage that
+5. **A Power BI page on the ground truth:** the field check by species,
+   whether trees scored as stressed read lower on the satellite, the garden
+   tree against Bristol's large beeches, and the confirmed polypore cases.
+6. **A 2027 re-score** of the field sample, to catch drought damage that
    shows a year late, which is common in beech.
+
+## What the pilot walk found so far
+
+On 30 September 2026, 41 of 61 randomly drawn trees on Clifton and Durdham
+Downs were scored with QField, using the ICP Forests crown condition
+classes. **On the ground the trees were broadly healthy:** mean crown
+thinning sat between "none" and "slight", and 8 of the 39 trees compared
+showed any visible stress (6 of 27 beeches, 1 of 8 limes, 1 of 3 oaks).
+Several thinner beech crowns carried a heavy nut crop, which thins beech
+crowns in its own right.
+
+What the walk added:
+
+- **It caught the raw satellite readings being wrong.** They showed almost
+  every Downs tree as badly stressed, against healthy crowns on the ground;
+  that mismatch led to the grass check and the correction.
+- **It agrees in direction with the corrected readings.** 23 scored trees
+  have usable readings, 4 of them scored as stressed; the stressed trees
+  read lower (red edge −0.074 against −0.062), rank correlation with crown
+  thinning −0.32. Too few stressed trees to confirm it statistically.
+- **It tested the register.** 40 of 41 trees were where the register said,
+  39 of 40 the right species. One "live" 100 cm beech (tree 10) is a dead
+  monolith, its crown cut off, with giant polypore fruiting in a ring around
+  the trunk.
+- **It showed the satellite's limits for single trees.** Tree 10's pixels
+  kept reading green long after its crown came off (its cut ends were grey
+  and weathered), because neighbouring canopy and scrub filled them. Two
+  scored trees disagree outright with their readings. At 10 m the satellite
+  works across many trees, not tree by tree.
 
 # Reproduce it
 
@@ -413,17 +556,39 @@ beech-canopy-cover                     # canopy share per crown
 beech-ground-reference                 # QGIS model 03: ground around each crown
 beech-grass-reference                  # open grass plots
 beech-apply-sql 09_metrics.sql 10_field_vs_satellite.sql 11_unmixed.sql
+python -m beech.qfield                 # freeze the random field sample
+beech-load-field-returns <folder>      # QField survey returns
 beech-analysis                         # comparison tables, outputs/tables/
 python -m beech.figures                # figures, outputs/figures/
+beech-web-export                       # web map data, web/data/
+beech-powerbi-export                   # Power BI data, powerbi/data/
+beech-powerbi-report                   # Power BI pages (close Power BI first)
 pytest                                 # tests
 ```
 
-**Repo layout:** `sql/` the database, cleaning and metrics, in order;
-`src/beech/` the Python pipeline; `qgis/models/` the three Graphical Modeler
-models and `qgis/scripts/` the code that builds and runs them; `docs/`
-methods, data quality register, field protocol and the full project log;
-`outputs/` figures and tables; `powerbi/` the report's data and build guide;
-`qfield/` the field survey project; `tests/`.
+The QGIS figures and the Power BI basemap are drawn with QGIS's own Python,
+for example `"C:\Program Files\QGIS 4.0.3\bin\python-qgis.bat"
+qgis/scripts/render_basemap.py`. To try the web map locally, run
+`python -m http.server -d web 8000` and open http://localhost:8000.
+
+## Also in this repo
+
+- [web/](web/): the interactive map (HTML, CSS and JavaScript, no build
+  step) and its GeoJSON data.
+- [powerbi/](powerbi/): the Power BI project, its CSV data, page
+  screenshots and a guide.
+- [qgis/](qgis/): the three Graphical Modeler models, the scripts that build
+  and run them, and the public QGIS project.
+- [sql/](sql/): the database, cleaning, metrics and checks, in run order.
+- [src/beech/](src/beech/): the Python pipeline.
+- [docs/](docs/): [methods](docs/methods.md),
+  [data quality register](docs/data_quality_register.md),
+  [field protocol](docs/field_protocol.md) and the full
+  [project log](docs/project_log.md).
+- [outputs/](outputs/): figures and comparison tables.
+- [qfield/](qfield/): the field survey project.
+- [tests/](tests/): unit tests for the parsers, the export and the
+  statistics.
 
 ## Data credits
 
@@ -434,4 +599,6 @@ Composite data, Open Government Licence v3.0. Contains OS data © Crown
 copyright and database right 2026 (OS OpenMap Local), Open Government
 Licence v3.0. Contains Met Office historic station data. Source: Office for
 National Statistics licensed under the Open Government Licence v3.0 (local
-authority boundary).
+authority boundary). Web map basemap: OpenFreeMap, © OpenMapTiles, data ©
+OpenStreetMap contributors. Aerial imagery: Esri, Maxar, Earthstar
+Geographics.

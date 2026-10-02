@@ -1,0 +1,9 @@
+/// Folder holding the report's CSV files (powerbi/data/ in the repo), ending in a backslash.
+/// After cloning: Home, Transform data, Edit parameters, and point it at your copy.
+expression DataFolder = "C:\Users\Kaspa\Documents\Career-builder\01_uk_job_projects\bristol_beech_drought_2026\powerbi\data\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: d152d5ff-c159-41b5-8e4e-e662fc28fd17
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

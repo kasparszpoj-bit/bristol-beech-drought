@@ -526,12 +526,141 @@ Arup Graduate Geospatial Specialist ad) where useful.
 - **Skills:** data visualisation, technical writing, dashboards, data
   governance.
 
+### Power BI model checked against the analysis
+- **What:** Kaspar loaded the CSVs and built the model (relationships, DAX
+  measures). Connected to the open file through Microsoft's Power BI
+  Modeling MCP server and checked every number with DAX queries against
+  the analysis tables.
+- **Found:** the yearly medians matched exactly, but the crown count read
+  37 instead of 1,927. Power BI had guessed `tree_year[asset_id]` was a
+  number from its first rows (IDs like `00809493`), dropping leading zeros
+  and turning every `PK...` ID into an error, so no reading linked to a
+  tree. Separately, the CSV loader ignored quotes, so seven rows with a
+  comma inside a value ("Bonnville Road, Oakenhill Cottages") were split
+  across the wrong columns.
+- **Fixed:** the load queries set IDs to text and read quotes properly;
+  years no longer summed; measure formats corrected. Afterwards the 2026
+  species medians in Power BI match the report to the third decimal place.
+- **New fact surfaced:** 99% of analysable beeches read below their normal
+  in 2026, against 78% of limes and 80% of planes.
+- **Lesson:** a dashboard can look right while its joins are broken;
+  reconcile its numbers with the source before trusting a single visual.
+
+## 2 October 2026: an unhappy beech in St Andrews Park
+
+### Opportunistic observation, PK31500
+- **What:** Kaspar found a large beech at the south edge of St Andrews Park
+  (by the Grenville Road entrance) with most of its leaves gone and giant
+  polypore at the base, photographed it and dropped a pin. The pin is 2.1 m
+  from register tree PK31500, so the match is certain. Recorded in
+  `raw.opportunistic_obs`, kept apart from the random field sample so a
+  tree chosen because it looked bad cannot bias the field check.
+- **What the register says:** green beech (*Fagus sylvatica*), no trunk
+  diameter, crown 18 m, height 19 m. Kaspar reported a copper beech; to be
+  confirmed. LIDAR crown 86 m², 18.1 m tall, canopy share 0.68.
+- **What the satellite says (ground removed):** 2026 greenness −0.077, more
+  than three quarters of the city's 195 analysable beeches; red edge −0.051,
+  middling. Its raw greenness fell steadily through the summer, from about
+  0.81 in early July to about 0.66 by mid August.
+- **Why the satellite understates it:** the July and August window misses
+  leaf loss in September, when much of this crown went; and the crown is
+  ringed by evergreen yews and a Leyland cypress 5 to 9 m away, whose
+  foliage keeps its mixed pixels green.
+- **Two lessons:** heavy crown loss seen on 1 October can sit only in the
+  top quarter on July and August satellite data, so September images
+  matter for late damage; and a tree with root rot and severe crown loss
+  beside a road and a pavement, with someone sleeping rough beneath it,
+  is exactly what Chapter 2's inspection list is for.
+- **Already known to the council:** a member of the public reported the
+  fungus on FixMyStreet on 15 September 2026 (ref 10102007, category "Tree
+  in poor health", photos showing the rosettes at the base). The council
+  investigated and raised a job with its contractors on 25 September, and
+  the report was closed. An independent, dated record of the fungus, and
+  evidence the inspection system works; the crown loss and the tent may
+  postdate it, so are worth adding as an update.
+- **A data source for Chapter 2:** Bristol's FixMyStreet holds dated,
+  located public reports by category, including tree health. Matched to
+  register trees by location, they could show which stressed beeches the
+  council already knows about. Use counts and locations only, never
+  reporters' names.
+- **Privacy:** the photo shows a rough sleeper's tent; it will not be
+  published uncropped.
+- **Files:** `data/field_returns/opportunistic/2026-10-02_PK31500/`,
+  `sql/07_field_check.sql`.
+
+### 2026 against 2018: a correction to the headline
+- **What:** reviewing the Power BI drought chart, Kaspar pointed out that
+  2026 is not as deep as 2018 (median red edge −0.037 against −0.041),
+  although the page title implied 2026 was the worst year. Rechecked by
+  comparing the same 1,924 crowns in both years.
+- **Result:** across all species there is no difference in red edge
+  (+0.001, 95% interval −0.001 to +0.004), and greenness and moisture fell
+  less in 2026 (−0.011 and −0.028 against −0.049 and −0.060 in 2018). 2026
+  affected more crowns (84% below normal on red edge, against 78%) but not
+  more deeply. By species, same trees: beech 0.012 worse in 2026 (interval
+  0.004 to 0.028), the only species clearly worse; oak 0.012 better (0.006
+  to 0.017); lime, plane and sycamore unchanged.
+- **Change:** key findings 1 and 2 rewritten. The headline is now that the
+  hottest summer on record did not hurt Bristol's trees more than 2018 in
+  general, but did hurt beech more: a sharper and more defensible finding
+  than "2026 was the worst year".
+- **Lesson:** a share-below-normal statistic and a median change can tell
+  different stories; the title must match what the chart shows.
+
+### Power BI report, pages 1 to 4
+- **What:** the report is now a Power BI project (.pbip), with every page
+  written as code (`src/beech/powerbi_report.py`) and reviewed page by page
+  in Power BI Desktop: 1 Drought, 2 Methods, 3 Main findings, 4 Tree
+  explorer. A new analysis table (`species_change.csv`: 2026 against 2018,
+  same trees, 95% intervals) feeds page 3.
+- **The map problem:** every Power BI map visual (Azure Maps; the old Bing
+  maps are retired) needs a work or school sign-in. The tree explorer is
+  instead a scatter of longitude against latitude over a basemap rendered in
+  QGIS for exactly the same axis range (`qgis/scripts/render_basemap.py`).
+  It filters, cross-highlights and shows tooltips, but does not zoom.
+- **Decision (Kaspar):** one of the first things seen on GitHub must be a
+  first-rate interactive map. That is the phase 2 web map (MapLibre on
+  GitHub Pages), linked at the top of the README.
+
+
+### Two phases, and the interactive web map (2 October 2026)
+- **What:** the project is now framed in two phases. Phase 1, the desk
+  analysis and report, is complete. Phase 2 checks it on the ground (the
+  QField sample, a blind rescore, field against satellite) and looks for
+  real giant polypore cases (FixMyStreet, NBN Atlas, field sightings; St
+  Andrews Park is the first). The web map moved into Phase 1, because it
+  should be the first thing seen on GitHub. The Power BI pages were
+  reordered so the tree explorer opens first.
+- **Web map:** `web/`, hand-written MapLibre GL JS with no build step,
+  published to GitHub Pages by a workflow (`.github/workflows/pages.yml`).
+  `beech-web-export` writes trees (1 MB), LIDAR crowns simplified to 0.5 m
+  (2.7 MB) and the boundary as GeoJSON straight from PostGIS. Year buttons
+  with a play control, species, size and setting filters, live headline
+  numbers and a species chart, crowns from zoom 15, a street map or aerial
+  basemap (OpenFreeMap, Esri imagery; neither needs a key), a site search,
+  and a per-tree history chart. Checked in a browser at desktop and phone
+  widths; the headline numbers match Power BI and the analysis (2026, all
+  species: 1,927 trees, median −0.037, 84% below normal; beech −0.063).
+- **Power BI made portable:** the eight hard-coded CSV paths became one
+  `DataFolder` parameter, a leftover error query was removed, and the guide
+  was rewritten for the `.pbip` workflow (`powerbi/README.md`). Screenshots
+  of the four pages are in `powerbi/screenshots/`. A `.gitignore` rule
+  (`*case_study*`) would have silently left the case study table out of the
+  Power BI project; an exception was added.
+- **Tests:** `tests/test_reporting.py` covers the Power BI number fix, the
+  bootstrap median, the paired species change and its verdicts, and the web
+  export's yearly arrays. 62 tests pass; ruff clean.
+- **Privacy:** every file to be committed searched for the garden tree's
+  street names, house number and coordinates; no names or address terms.
+  The nearest published tree is 61 m from it and the nearest crown 116 m.
+- **Skills:** web mapping (MapLibre, GeoJSON, HTML, CSS, JavaScript), CI
+  and GitHub Pages, Power BI as code, testing.
+
 ---
 
 ## Next
 
-QGIS model 02: satellite indices per crown (then check tree 10 and the
-field scores against it); drought anomalies; comparisons; inspection list;
-web map; Power BI; final report. Optional: finish the 20 unvisited trees
-before leaf fall in October, and re-score all 61 in summer 2027 to catch
-delayed drought damage.
+Phase 2: finish the field sample before leaf fall (late October 2026) with
+a blind rescore; collect giant polypore cases from FixMyStreet, NBN Atlas
+and sightings; the inspection list; September images; response clusters; a
+Power BI ground-truth page; re-score in summer 2027.

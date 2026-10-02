@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bristol's Trees in the 2026 Drought</title>
+  <meta name="description" content="An interactive map of how 1,927 large council trees in Bristol responded to the 2026 drought, from Sentinel-2 satellite images and LIDAR crowns.">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="layout">
+    <aside class="panel" aria-label="Map controls and results">
+      <header>
+        <p class="eyebrow">Bristol beech drought project · Phase 1</p>
+        <h1>How Bristol's trees fared in the 2026 drought</h1>
+        <p class="lede">Every dot is a large council tree, compared with its own normal
+          summers using Sentinel-2 satellite images, with the grass around it removed.
+          Colour shows the change in <strong>red edge</strong>, a measure of leaf
+          chlorophyll, in July and August. Zoom in to see each tree's crown, mapped from
+          LIDAR. Click a tree for its history.</p>
+      </header>
+
+      <section class="block" aria-labelledby="year-label">
+        <div class="block-head">
+          <h2 id="year-label">Year</h2>
+          <button id="play" class="play" type="button" aria-pressed="false">Play years</button>
+        </div>
+        <div id="years" class="years" role="radiogroup" aria-labelledby="year-label"></div>
+        <p class="hint">Droughts are marked with a dot. Normal years sit near zero by design.</p>
+      </section>
+
+      <section class="stats" aria-live="polite">
+        <div class="stat"><span id="stat-n" class="stat-value">0</span><span class="stat-label">trees shown</span></div>
+        <div class="stat"><span id="stat-median" class="stat-value">0</span><span class="stat-label">median change</span></div>
+        <div class="stat"><span id="stat-below" class="stat-value">0</span><span class="stat-label">below their normal</span></div>
+      </section>
+
+      <section class="block" aria-labelledby="species-label">
+        <div class="block-head">
+          <h2 id="species-label">Species</h2>
+          <span class="hint-inline">median change; click to show or hide</span>
+        </div>
+        <div id="species" class="species"></div>
+      </section>
+
+      <section class="block" aria-labelledby="size-label">
+        <h2 id="size-label">Trunk size</h2>
+        <div id="sizes" class="chips"></div>
+      </section>
+
+      <section class="block" aria-labelledby="site-label">
+        <h2 id="site-label">Setting</h2>
+        <div id="sites" class="chips"></div>
+      </section>
+
+      <section class="block">
+        <label for="find" class="find-label">Find a park or street</label>
+        <input id="find" class="find" list="site-list" placeholder="for example, Clifton and Durdham Downs" autocomplete="off">
+        <datalist id="site-list"></datalist>
+      </section>
+
+      <section id="detail" class="detail" hidden aria-live="polite"></section>
+
+      <section class="block legend" aria-labelledby="legend-label">
+        <h2 id="legend-label">Change in red edge from the tree's normal</h2>
+        <ul id="legend"></ul>
+      </section>
+
+      <footer>
+        <p>Phase 1 of a project by Kaspar Szpojnarowicz.
+          <a href="https://github.com/kasparszpoj-bit/bristol-beech-drought">Method, code and findings on GitHub</a>.</p>
+        <p class="small">Council trees only; private trees are not shown. At 10 m a crown
+          is a few mixed pixels, so the map shows patterns across many trees, not a
+          health check of any single tree. Contains Bristol City Council data, modified
+          Copernicus Sentinel data, Environment Agency LIDAR and ONS boundary data
+          (Open Government Licence v3.0).</p>
+      </footer>
+    </aside>
+
+    <div class="map-wrap">
+      <div id="map" role="region" aria-label="Map of Bristol's council trees"></div>
+      <div class="basemaps" role="group" aria-label="Basemap">
+        <button type="button" data-base="map" aria-pressed="true">Map</button>
+        <button type="button" data-base="aerial" aria-pressed="false">Aerial</button>
+      </div>
+      <div id="loading" class="loading">Loading 1,927 trees…</div>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

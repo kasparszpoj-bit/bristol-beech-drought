@@ -108,3 +108,33 @@ WHERE found = 'found'
   AND (species_ok IS NULL OR defoliation IS NULL OR discolour IS NULL
        OR dieback IS NULL OR leaf_fall IS NULL OR mast IS NULL
        OR fungus IS NULL OR photo IS NULL);
+
+-- Opportunistic observations: trees reported because they looked unwell,
+-- outside the random sample. Kept apart so they never bias the field check,
+-- but they feed Chapter 2 (which beeches to inspect).
+CREATE TABLE IF NOT EXISTS raw.opportunistic_obs (
+    obs_id       serial PRIMARY KEY,
+    asset_id     text,
+    observed_on  date NOT NULL,
+    observer     text NOT NULL,
+    reported_as  text,
+    crown_note   text,
+    fungus       text,
+    photo        text,
+    geom         geometry(Point, 27700),
+    UNIQUE (asset_id, observed_on)
+);
+INSERT INTO raw.opportunistic_obs
+    (asset_id, observed_on, observer, reported_as, crown_note, fungus, photo, geom)
+VALUES ('PK31500', '2026-10-02', 'KS', 'copper beech',
+        'Large majority of leaves lost; crown very thin, looked severely stressed.',
+        'meripilus',
+        'data/field_returns/opportunistic/2026-10-02_PK31500/tree.jpg',
+        ST_Transform(ST_SetSRID(ST_MakePoint(-2.588222, 51.473250), 4326), 27700))
+ON CONFLICT (asset_id, observed_on) DO NOTHING;
+
+ALTER TABLE raw.opportunistic_obs ADD COLUMN IF NOT EXISTS council_report text;
+UPDATE raw.opportunistic_obs SET council_report =
+    'FixMyStreet 10102007: fungus reported 15 Sept 2026 (Tree in poor health); '
+    'council investigated, job raised with contractors 25 Sept 2026, report closed'
+WHERE asset_id = 'PK31500' AND council_report IS NULL;

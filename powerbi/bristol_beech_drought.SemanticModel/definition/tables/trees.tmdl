@@ -1,0 +1,174 @@
+table trees
+	lineageTag: 952a33ea-0551-43dc-8708-89fb6fc12b0e
+
+	column asset_id
+		dataType: string
+		lineageTag: b63940fd-319d-4f50-8fa2-487273627cd7
+		summarizeBy: none
+		sourceColumn: asset_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column species
+		dataType: string
+		lineageTag: ff19e232-cc58-490d-9957-efde0badb651
+		summarizeBy: none
+		sourceColumn: species
+
+		annotation SummarizationSetBy = Automatic
+
+	column common_name
+		dataType: string
+		lineageTag: 3156a68e-eca1-4ea3-9013-e0093cd4caaa
+		summarizeBy: none
+		sourceColumn: common_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column latin_name
+		dataType: string
+		lineageTag: 3397c18f-08fb-43aa-8e21-f6855d5a370d
+		summarizeBy: none
+		sourceColumn: latin_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column purple_leaved
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 74055ba1-4093-42f2-9355-588276dd5067
+		summarizeBy: none
+		sourceColumn: purple_leaved
+
+		annotation SummarizationSetBy = Automatic
+
+	column size_class
+		dataType: string
+		lineageTag: 67395031-7851-49f6-a161-1a98d0fb187a
+		summarizeBy: none
+		sourceColumn: size_class
+
+		annotation SummarizationSetBy = Automatic
+
+	column dbh_cm
+		dataType: double
+		formatString: 0
+		lineageTag: e43b01be-465f-4716-a4e4-87e8912725df
+		summarizeBy: average
+		sourceColumn: dbh_cm
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column crown_width_m
+		dataType: double
+		formatString: 0
+		lineageTag: 66c45e3a-14ce-401e-b234-85dd1fa296e0
+		summarizeBy: average
+		sourceColumn: crown_width_m
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column crown_area_m2
+		dataType: double
+		lineageTag: 97418d2e-df3c-410a-8c0f-7b9530679810
+		summarizeBy: average
+		sourceColumn: crown_area_m2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column height_m
+		dataType: double
+		lineageTag: af1dc016-f0da-40c9-a95c-3bc818638582
+		summarizeBy: average
+		sourceColumn: height_m
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column site_name
+		dataType: string
+		lineageTag: c0ee0a84-ec89-46d2-9dcd-863b570ffa5f
+		summarizeBy: none
+		sourceColumn: site_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column site_type
+		dataType: string
+		lineageTag: 1e460f00-b855-418b-923f-314993fab019
+		summarizeBy: none
+		sourceColumn: site_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column canopy_share
+		dataType: double
+		lineageTag: 4b47cf1b-65ba-48d4-88cf-7aa0bec4a521
+		summarizeBy: average
+		sourceColumn: canopy_share
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column analysable
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 79c231ac-cc74-4c61-9cf0-5a50b7119cac
+		summarizeBy: none
+		sourceColumn: analysable
+
+		annotation SummarizationSetBy = Automatic
+
+	column field_tree_no
+		dataType: int64
+		formatString: 0
+		lineageTag: 25530961-78eb-4db9-aaa7-566c6cb271b6
+		summarizeBy: none
+		sourceColumn: field_tree_no
+
+		annotation SummarizationSetBy = User
+
+	column latitude
+		dataType: double
+		lineageTag: f6fb0f91-1577-4112-9219-363a16b2cdca
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 3c9e262e-4eeb-4778-9ba3-9e8b3a58283a
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition trees = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "trees.csv"),[Delimiter=",", Columns=17, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"asset_id", type text}, {"species", type text}, {"common_name", type text}, {"latin_name", type text}, {"purple_leaved", type logical}, {"size_class", type text}, {"dbh_cm", Int64.Type}, {"crown_width_m", Int64.Type}, {"crown_area_m2", type number}, {"height_m", type number}, {"site_name", type text}, {"site_type", type text}, {"canopy_share", type number}, {"analysable", type logical}, {"field_tree_no", Int64.Type}, {"latitude", type number}, {"longitude", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

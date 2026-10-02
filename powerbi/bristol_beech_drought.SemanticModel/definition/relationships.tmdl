@@ -1,0 +1,8 @@
+relationship ab4e5b6c-a83e-95b8-fb0e-20c3d3b88def
+	fromColumn: tree_year.asset_id
+	toColumn: trees.asset_id
+
+relationship e03e6f55-7930-1810-5209-aca867310804
+	fromColumn: field_check.asset_id
+	toColumn: trees.asset_id
+

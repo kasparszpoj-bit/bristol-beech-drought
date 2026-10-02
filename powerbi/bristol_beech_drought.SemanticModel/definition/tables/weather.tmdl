@@ -1,0 +1,123 @@
+table weather
+	lineageTag: 168af3e6-50a7-42df-919a-5690007d9d74
+
+	column station
+		dataType: string
+		lineageTag: e68a5750-e656-41d2-800e-aa05500c5ca7
+		summarizeBy: none
+		sourceColumn: station
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 44af5e79-de8f-45ed-a169-26e1a9050f56
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = User
+
+	column growing_season_rain_mm
+		dataType: double
+		lineageTag: d2618ec4-87c6-43f7-a894-b2fe631453e9
+		summarizeBy: sum
+		sourceColumn: growing_season_rain_mm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column july_rain_mm
+		dataType: double
+		lineageTag: dba78d1a-0aa3-4255-8b65-57599224a522
+		summarizeBy: sum
+		sourceColumn: july_rain_mm
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column summer_mean_max_c
+		dataType: double
+		lineageTag: 2792a338-2ed1-4035-b60f-f66dd029c8d7
+		summarizeBy: sum
+		sourceColumn: summer_mean_max_c
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column provisional
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: b376862e-d9f2-42c3-a358-cd68e7034f25
+		summarizeBy: none
+		sourceColumn: provisional
+
+		annotation SummarizationSetBy = Automatic
+
+	column dry_rank_mar_aug
+		dataType: int64
+		formatString: 0
+		lineageTag: 6fa029c1-5d2b-4c5e-811d-463c3d5a0750
+		summarizeBy: none
+		sourceColumn: dry_rank_mar_aug
+
+		annotation SummarizationSetBy = User
+
+	column dry_rank_july
+		dataType: int64
+		formatString: 0
+		lineageTag: ab0cc398-c1d0-4b89-b878-f4fae8b77788
+		summarizeBy: none
+		sourceColumn: dry_rank_july
+
+		annotation SummarizationSetBy = User
+
+	column hot_rank_summer
+		dataType: int64
+		formatString: 0
+		lineageTag: a25f3e0f-8cfa-489d-8940-d54215c3700f
+		summarizeBy: none
+		sourceColumn: hot_rank_summer
+
+		annotation SummarizationSetBy = User
+
+	column n_years
+		dataType: int64
+		formatString: 0
+		lineageTag: 6291195c-af52-4685-85c4-6febebd3313a
+		summarizeBy: none
+		sourceColumn: n_years
+
+		annotation SummarizationSetBy = User
+
+	column year_group
+		dataType: string
+		lineageTag: 5b4798c4-dca9-47c7-8d88-c67230f07195
+		summarizeBy: none
+		sourceColumn: year_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column station_year
+		dataType: string
+		lineageTag: 5d9947a8-e678-4a5b-9efd-c9808d79166a
+		summarizeBy: none
+		sourceColumn: station_year
+
+		annotation SummarizationSetBy = Automatic
+
+	partition weather = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "weather.csv"),[Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"station", type text}, {"year", Int64.Type}, {"growing_season_rain_mm", type number}, {"july_rain_mm", type number}, {"summer_mean_max_c", type number}, {"provisional", type logical}, {"dry_rank_mar_aug", Int64.Type}, {"dry_rank_july", Int64.Type}, {"hot_rank_summer", Int64.Type}, {"n_years", Int64.Type}, {"year_group", type text}, {"station_year", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

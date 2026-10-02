@@ -1,0 +1,187 @@
+table field_check
+	lineageTag: bbf9883b-26aa-464f-a6e5-afc3d142eac1
+
+	column tree_no
+		dataType: int64
+		formatString: 0
+		lineageTag: c89dddec-249e-45a6-8503-fc675194463b
+		summarizeBy: none
+		sourceColumn: tree_no
+
+		annotation SummarizationSetBy = User
+
+	column asset_id
+		dataType: string
+		lineageTag: 746be9f5-d9e0-4534-9efa-4fe64cd49e83
+		summarizeBy: none
+		sourceColumn: asset_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column stratum
+		dataType: string
+		lineageTag: 9a01757e-731b-492f-871b-427e3dd885c6
+		summarizeBy: none
+		sourceColumn: stratum
+
+		annotation SummarizationSetBy = Automatic
+
+	column species
+		dataType: string
+		lineageTag: fdf15b3b-8f7d-4a28-9853-0fca9104288b
+		summarizeBy: none
+		sourceColumn: species
+
+		annotation SummarizationSetBy = Automatic
+
+	column size_class
+		dataType: string
+		lineageTag: ddc395f5-adc2-4493-9ead-2e9ccba4924b
+		summarizeBy: none
+		sourceColumn: size_class
+
+		annotation SummarizationSetBy = Automatic
+
+	column visited
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c5a7d578-083f-49c9-a5d5-5c903205f67a
+		summarizeBy: none
+		sourceColumn: visited
+
+		annotation SummarizationSetBy = Automatic
+
+	column found
+		dataType: string
+		lineageTag: fe5461ff-9774-4119-a260-091e9f0c1237
+		summarizeBy: none
+		sourceColumn: found
+
+		annotation SummarizationSetBy = Automatic
+
+	column species_ok
+		dataType: string
+		lineageTag: 58ee2eca-a938-4133-8b77-11e0bf56f8dd
+		summarizeBy: none
+		sourceColumn: species_ok
+
+		annotation SummarizationSetBy = Automatic
+
+	column thinning_class
+		dataType: int64
+		formatString: 0
+		lineageTag: 1540d012-5188-40bb-99f4-9cda5be4a52b
+		summarizeBy: none
+		sourceColumn: thinning_class
+
+		annotation SummarizationSetBy = User
+
+	column browning_class
+		dataType: int64
+		formatString: 0
+		lineageTag: baf5b89e-be14-463f-b26d-a1b8a125e7f0
+		summarizeBy: none
+		sourceColumn: browning_class
+
+		annotation SummarizationSetBy = User
+
+	column dieback
+		dataType: string
+		lineageTag: 39bdbb49-7c0e-4411-8b60-3e26831aceab
+		summarizeBy: none
+		sourceColumn: dieback
+
+		annotation SummarizationSetBy = Automatic
+
+	column leaf_fall
+		dataType: string
+		lineageTag: 7340e92e-616b-4246-bc1e-f64a92b79559
+		summarizeBy: none
+		sourceColumn: leaf_fall
+
+		annotation SummarizationSetBy = Automatic
+
+	column nut_crop
+		dataType: string
+		lineageTag: e6a1133d-c06a-473e-9db1-013679035a03
+		summarizeBy: none
+		sourceColumn: nut_crop
+
+		annotation SummarizationSetBy = Automatic
+
+	column fungus
+		dataType: string
+		lineageTag: da535dbe-cf67-47bf-b894-01c0e0022f6a
+		summarizeBy: none
+		sourceColumn: fungus
+
+		annotation SummarizationSetBy = Automatic
+
+	column stressed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: f47961f8-f2f3-43f1-98b0-9c6f5b0d76bc
+		summarizeBy: none
+		sourceColumn: stressed
+
+		annotation SummarizationSetBy = Automatic
+
+	column compared
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: d1843464-d143-4109-b994-85a60acfb890
+		summarizeBy: none
+		sourceColumn: compared
+
+		annotation SummarizationSetBy = Automatic
+
+	column excluded_reason
+		dataType: string
+		lineageTag: 45d884fe-8f58-44ee-b31f-16d20e120cfd
+		summarizeBy: none
+		sourceColumn: excluded_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column change_red_edge_2026
+		dataType: double
+		lineageTag: 6ade565d-f110-4b63-ba3b-dc32258fa872
+		summarizeBy: average
+		sourceColumn: change_red_edge_2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column change_moisture_2026
+		dataType: double
+		lineageTag: 463165f6-3066-40d9-92cb-992754eb9159
+		summarizeBy: average
+		sourceColumn: change_moisture_2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column change_greenness_2026
+		dataType: double
+		lineageTag: f182f7ac-c2b4-4c04-a882-acfdb9844384
+		summarizeBy: average
+		sourceColumn: change_greenness_2026
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition field_check = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "field_check.csv"),[Delimiter=",", Columns=20, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"tree_no", Int64.Type}, {"asset_id", type text}, {"stratum", type text}, {"species", type text}, {"size_class", type text}, {"visited", type logical}, {"found", type text}, {"species_ok", type text}, {"thinning_class", Int64.Type}, {"browning_class", Int64.Type}, {"dieback", type text}, {"leaf_fall", type text}, {"nut_crop", type text}, {"fungus", type text}, {"stressed", type logical}, {"compared", type logical}, {"excluded_reason", type text}, {"change_red_edge_2026", type number}, {"change_moisture_2026", type number}, {"change_greenness_2026", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

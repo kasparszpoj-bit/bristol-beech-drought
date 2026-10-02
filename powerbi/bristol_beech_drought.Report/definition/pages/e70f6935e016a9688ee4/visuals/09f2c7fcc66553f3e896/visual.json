@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "09f2c7fcc66553f3e896",
+  "position": {
+    "x": 40,
+    "y": 85,
+    "z": 1,
+    "width": 1840,
+    "height": 80,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Each dot is a council tree with a usable satellite reading. Colour shows the change in red edge from that tree's normal. It opens on beech in 2026: change the filters on the left to see other species or years, and click a tree in the table to find it on the map.",
+                    "textStyle": {
+                      "fontSize": "15pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

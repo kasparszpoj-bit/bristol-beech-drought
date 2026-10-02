@@ -1,0 +1,36 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "c430ef56ed8247d21196",
+  "position": {
+    "x": 360,
+    "y": 1015,
+    "z": 11,
+    "width": 1520,
+    "height": 50,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Council trees only. Private trees, including the case study tree, are not shown. Bands: strong drop below −0.08, drop −0.08 to −0.03, near normal −0.03 to +0.03.",
+                    "textStyle": {
+                      "fontSize": "11pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

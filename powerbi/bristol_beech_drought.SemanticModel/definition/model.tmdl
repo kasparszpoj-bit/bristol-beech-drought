@@ -1,0 +1,27 @@
+model Model
+	culture: en-GB
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-GB
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["trees","case_study","field_check","grass_vs_trees","species_year","species_change","tree_year","weather","years","DataFolder"]
+
+annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
+
+ref table trees
+ref table case_study
+ref table field_check
+ref table grass_vs_trees
+ref table species_year
+ref table tree_year
+ref table weather
+ref table years
+ref table species_change
+
+ref cultureInfo en-GB
+

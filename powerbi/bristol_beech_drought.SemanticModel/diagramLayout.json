@@ -1,0 +1,139 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 0
+          },
+          "nodeIndex": "trees",
+          "nodeLineageTag": "952a33ea-0551-43dc-8708-89fb6fc12b0e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 8
+        },
+        {
+          "location": {
+            "x": 595.462625539796,
+            "y": 319.86662944777908
+          },
+          "nodeIndex": "case_study",
+          "nodeLineageTag": "fee03210-6490-4fee-82b9-8bac77fb2725",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 0
+          },
+          "nodeIndex": "field_check",
+          "nodeLineageTag": "bbf9883b-26aa-464f-a6e5-afc3d142eac1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 62
+          },
+          "nodeIndex": "grass_vs_trees",
+          "nodeLineageTag": "ab6302d7-49ea-4f45-8e8e-c9faf2562f60",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 0
+          },
+          "nodeIndex": "species_year",
+          "nodeLineageTag": "7f698866-0b79-4d97-ae5b-1674801f3586",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 279.16418814147676,
+            "y": 285.31729909195678
+          },
+          "nodeIndex": "tree_year",
+          "nodeLineageTag": "208f8c60-eaf7-4e55-8998-755be9524d0b",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 0
+          },
+          "nodeIndex": "weather",
+          "nodeLineageTag": "168af3e6-50a7-42df-919a-5690007d9d74",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 2272,
+            "y": 38
+          },
+          "nodeIndex": "years",
+          "nodeLineageTag": "8ddb0155-d747-49e9-9858-7257f0173cf5",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 2556,
+            "y": 135.93331472388957
+          },
+          "nodeIndex": "species_change",
+          "nodeLineageTag": "599d5db2-7d03-463e-9719-8178b320d502",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 70.95554390096882,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

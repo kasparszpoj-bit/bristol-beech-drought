@@ -28,6 +28,9 @@ beech-canopy-cover = "beech.canopy_cover:main"
 beech-grass-reference = "beech.grass_reference:main"
 beech-ground-reference = "beech.ground_reference:main"
 beech-analysis = "beech.analysis:main"
+beech-powerbi-export = "beech.powerbi_export:main"
+beech-powerbi-report = "beech.powerbi_report:main"
+beech-web-export = "beech.web_export:main"
 
 [build-system]
 requires = ["setuptools>=68"]

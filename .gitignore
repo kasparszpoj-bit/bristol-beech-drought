@@ -27,6 +27,11 @@ qfield/**/DCIM/
 !src/beech/case_study.py
 !outputs/figures/fig06_case_study.png
 !powerbi/data/case_study.csv
+!powerbi/bristol_beech_drought.SemanticModel/definition/tables/case_study.tmdl
 
 # Power BI: commit the report and screenshots, not autosave files
 *.pbix.bak
+
+# Power BI project: commit definitions, not local caches or settings
+powerbi/**/.pbi/cache.abf
+powerbi/**/.pbi/localSettings.json

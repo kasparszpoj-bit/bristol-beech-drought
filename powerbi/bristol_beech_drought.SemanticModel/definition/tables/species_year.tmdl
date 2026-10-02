@@ -1,0 +1,149 @@
+table species_year
+	lineageTag: 7f698866-0b79-4d97-ae5b-1674801f3586
+
+	column subset
+		dataType: string
+		lineageTag: 83b72b6a-83f4-4ce1-8c5a-16a44612e98a
+		summarizeBy: none
+		sourceColumn: subset
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 64caed72-e01b-42c8-a0fa-5df740238e3b
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column species
+		dataType: string
+		lineageTag: 6f5334ae-a7f0-4cb8-85c6-09b478a3978b
+		summarizeBy: none
+		sourceColumn: species
+
+		annotation SummarizationSetBy = Automatic
+
+	column crowns
+		dataType: int64
+		formatString: 0
+		lineageTag: 3962a811-3d01-4f30-9caf-57e9cdf5735a
+		summarizeBy: sum
+		sourceColumn: crowns
+
+		annotation SummarizationSetBy = Automatic
+
+	column canopy_share
+		dataType: double
+		lineageTag: 5b4e5b18-2723-42cd-8228-291e70624c09
+		summarizeBy: sum
+		sourceColumn: canopy_share
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndvi
+		dataType: double
+		lineageTag: fc9d8da1-bad8-47f3-a0ce-0aeadf929913
+		summarizeBy: sum
+		sourceColumn: d_ndvi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndvi_lo
+		dataType: double
+		lineageTag: c721f870-007c-4ccf-bfb0-b3861ec94d18
+		summarizeBy: sum
+		sourceColumn: d_ndvi_lo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndvi_hi
+		dataType: double
+		lineageTag: da7a7c88-7b7f-4936-81af-6f286b780145
+		summarizeBy: sum
+		sourceColumn: d_ndvi_hi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndmi
+		dataType: double
+		lineageTag: cb8bfe15-8be9-4d4d-95a7-65dd0aecc3dc
+		summarizeBy: sum
+		sourceColumn: d_ndmi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndmi_lo
+		dataType: double
+		lineageTag: 81288896-6d0b-4b2d-babc-94a5d7fca3f3
+		summarizeBy: sum
+		sourceColumn: d_ndmi_lo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndmi_hi
+		dataType: double
+		lineageTag: d0b04986-7aec-4dc6-991b-66fea673ccc8
+		summarizeBy: sum
+		sourceColumn: d_ndmi_hi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndre
+		dataType: double
+		lineageTag: ae51486c-7e24-4862-a0cd-da4bd87a2ace
+		summarizeBy: sum
+		sourceColumn: d_ndre
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndre_lo
+		dataType: double
+		lineageTag: 28ffdd6b-9c3e-4527-9c68-31bbaacc6177
+		summarizeBy: sum
+		sourceColumn: d_ndre_lo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndre_hi
+		dataType: double
+		lineageTag: 60a31f3c-cd82-4d4a-b505-c6923a2ac952
+		summarizeBy: sum
+		sourceColumn: d_ndre_hi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition species_year = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "species_year.csv"),[Delimiter=",", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"subset", type text}, {"year", Int64.Type}, {"species", type text}, {"crowns", Int64.Type}, {"canopy_share", type number}, {"d_ndvi", type number}, {"d_ndvi_lo", type number}, {"d_ndvi_hi", type number}, {"d_ndmi", type number}, {"d_ndmi_lo", type number}, {"d_ndmi_hi", type number}, {"d_ndre", type number}, {"d_ndre_lo", type number}, {"d_ndre_hi", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

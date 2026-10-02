@@ -1,0 +1,80 @@
+table years
+	lineageTag: 8ddb0155-d747-49e9-9858-7257f0173cf5
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: 82be3619-e2fd-4b91-9adb-d9ba4fc45a35
+		summarizeBy: none
+		sourceColumn: year
+
+		annotation SummarizationSetBy = User
+
+	column crowns
+		dataType: int64
+		formatString: 0
+		lineageTag: 3c590f1c-b0bd-45b9-b51e-a3902f1a9a34
+		summarizeBy: sum
+		sourceColumn: crowns
+
+		annotation SummarizationSetBy = Automatic
+
+	column d_ndvi
+		dataType: double
+		lineageTag: beae819d-f6b3-4fe1-9c5a-bb39b36419f4
+		summarizeBy: sum
+		sourceColumn: d_ndvi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndmi
+		dataType: double
+		lineageTag: 59e0e99e-5893-4d8a-bce0-24dc08f44c0b
+		summarizeBy: sum
+		sourceColumn: d_ndmi
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column d_ndre
+		dataType: double
+		lineageTag: ea93eb20-05f7-48cf-a544-f8e35f1c242e
+		summarizeBy: sum
+		sourceColumn: d_ndre
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column below_normal
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c41fdf90-379a-40f5-a4e9-255b405ee61d
+		summarizeBy: sum
+		sourceColumn: below_normal
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_group
+		dataType: string
+		lineageTag: fde76855-d810-48a4-8fe5-0a696ef82555
+		summarizeBy: none
+		sourceColumn: year_group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition years = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "years.csv"),[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"year", Int64.Type}, {"crowns", Int64.Type}, {"d_ndvi", type number}, {"d_ndmi", type number}, {"d_ndre", type number}, {"below_normal", type number}, {"year_group", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
