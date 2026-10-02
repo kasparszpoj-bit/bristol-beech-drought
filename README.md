@@ -5,11 +5,10 @@ with the 2026 drought, and were they hit harder than other large trees?
 Satellite imagery, a LIDAR laser survey and the council's tree register,
 combined in PostGIS and QGIS.
 
-**[Explore the interactive map](https://kasparszpoj-bit.github.io/bristol-beech-drought/)**:
-1,927 large council trees, each coloured by how far its leaf chlorophyll
-fell compared with its own normal summers. Step through the years from 2018
-to 2026, filter by species, size and setting, zoom in to see each crown as
-mapped from LIDAR, and click any tree for its history.
+**[Interactive map](https://kasparszpoj-bit.github.io/bristol-beech-drought/)**.
+Bristol's 1,927 large council trees, coloured by how far their chlorophyll
+fell against their usual summers. Play through 2018 to 2026, zoom in to see
+each LIDAR crown, and click a tree for its history.
 
 [![The interactive web map: Bristol's council trees coloured by their 2026 change in red edge](outputs/figures/web_map.png)](https://kasparszpoj-bit.github.io/bristol-beech-drought/)
 

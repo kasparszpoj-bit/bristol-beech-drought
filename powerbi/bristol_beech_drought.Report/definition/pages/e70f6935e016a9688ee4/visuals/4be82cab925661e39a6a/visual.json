@@ -5,8 +5,8 @@
     "x": 40,
     "y": 830,
     "z": 5,
-    "height": 230,
     "width": 300,
+    "height": 230,
     "tabOrder": 5
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "trees.site_type",
               "nativeQueryRef": "site_type",
-              "active": true,
               "displayName": "Site type"
             }
           ]

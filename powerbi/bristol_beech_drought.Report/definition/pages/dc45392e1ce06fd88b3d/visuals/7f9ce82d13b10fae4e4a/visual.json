@@ -5,8 +5,8 @@
     "x": 40,
     "y": 360,
     "z": 5,
-    "height": 480,
     "width": 900,
+    "height": 480,
     "tabOrder": 5
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "species_change.species",
               "nativeQueryRef": "species",
-              "active": true,
               "displayName": "Species"
             }
           ]

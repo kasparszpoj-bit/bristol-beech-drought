@@ -453,7 +453,9 @@ def page3() -> list[dict]:
         "objects": readable({
             "labels": [{"properties": {"show": lit("true"), "labelPrecision": lit("3L"),
                                        "labelPosition": text("OutsideEnd")}}],
-            "dataPoint": [colour_by(c, "species", "beech", ORANGE),
+            # A one-series chart only uses per-category colours with "Show all" on.
+            "dataPoint": [{"properties": {"showAllDataPoints": lit("true")}},
+                          colour_by(c, "species", "beech", ORANGE),
                           colour_by(c, "species", "oak", BLUE),
                           colour_by(c, "species", "lime", GREY),
                           colour_by(c, "species", "plane", GREY),
@@ -653,10 +655,15 @@ def write_page(page_id: str, display: str, visuals: list[dict]) -> None:
                                        encoding="utf-8")
 
 
+# The page made by hand in the first session, kept by its Power BI id. It
+# is no longer first in the page order, so it cannot be looked up by position.
+DROUGHT_PAGE = "8a8747db4c885d282665"
+
+
 def main() -> None:
     pages_file = REPORT / "pages" / "pages.json"
     meta = json.loads(pages_file.read_text(encoding="utf-8"))
-    first = meta["pageOrder"][0]
+    first = DROUGHT_PAGE
 
     # The hand-made card from the first session is replaced by p1-card.
     for f in (REPORT / "pages" / first / "visuals").glob("*/visual.json"):

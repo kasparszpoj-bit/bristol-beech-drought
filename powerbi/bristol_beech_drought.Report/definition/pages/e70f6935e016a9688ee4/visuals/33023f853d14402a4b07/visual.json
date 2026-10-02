@@ -5,8 +5,8 @@
     "x": 360,
     "y": 170,
     "z": 9,
-    "height": 840,
     "width": 1000,
+    "height": 840,
     "tabOrder": 9
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "trees.asset_id",
               "nativeQueryRef": "asset_id",
-              "active": true,
               "displayName": "Tree"
             }
           ]
@@ -49,6 +48,54 @@
               "queryRef": "tree_year.change_band",
               "nativeQueryRef": "change_band",
               "displayName": "Change in red edge"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "trees"
+                        }
+                      },
+                      "Property": "longitude"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(trees.longitude)",
+              "nativeQueryRef": "longitude",
+              "displayName": "Longitude"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "trees"
+                        }
+                      },
+                      "Property": "latitude"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(trees.latitude)",
+              "nativeQueryRef": "latitude",
+              "displayName": "Latitude"
             }
           ]
         },
@@ -113,55 +160,6 @@
               "queryRef": "tree_year.Median red edge change",
               "nativeQueryRef": "Median red edge change",
               "displayName": "Red edge change"
-            }
-          ]
-        },
-        "X": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "trees"
-                        }
-                      },
-                      "Property": "longitude"
-                    }
-                  },
-                  "Function": 1
-                }
-              },
-              "queryRef": "Avg(trees.longitude)",
-              "nativeQueryRef": "longitude",
-              "active": true,
-              "displayName": "Longitude"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Aggregation": {
-                  "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "trees"
-                        }
-                      },
-                      "Property": "latitude"
-                    }
-                  },
-                  "Function": 1
-                }
-              },
-              "queryRef": "Avg(trees.latitude)",
-              "nativeQueryRef": "latitude",
-              "displayName": "Latitude"
             }
           ]
         }

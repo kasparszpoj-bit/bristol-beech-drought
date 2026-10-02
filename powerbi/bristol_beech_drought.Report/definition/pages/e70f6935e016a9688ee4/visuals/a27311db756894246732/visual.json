@@ -5,8 +5,8 @@
     "x": 40,
     "y": 620,
     "z": 4,
-    "height": 200,
     "width": 300,
+    "height": 200,
     "tabOrder": 4
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "trees.size_class",
               "nativeQueryRef": "size_class",
-              "active": true,
               "displayName": "Trunk size"
             }
           ]

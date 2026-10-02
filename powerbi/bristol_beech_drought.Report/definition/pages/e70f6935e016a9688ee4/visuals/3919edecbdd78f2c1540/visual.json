@@ -5,8 +5,8 @@
     "x": 40,
     "y": 380,
     "z": 3,
-    "height": 230,
     "width": 300,
+    "height": 230,
     "tabOrder": 3
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "trees.species",
               "nativeQueryRef": "species",
-              "active": true,
               "displayName": "Species"
             }
           ]

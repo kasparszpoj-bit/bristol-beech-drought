@@ -5,8 +5,8 @@
     "x": 1000,
     "y": 415,
     "z": 5,
-    "height": 640,
     "width": 880,
+    "height": 640,
     "tabOrder": 5
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "years.year",
               "nativeQueryRef": "year",
-              "active": true,
               "displayName": "Year"
             }
           ]

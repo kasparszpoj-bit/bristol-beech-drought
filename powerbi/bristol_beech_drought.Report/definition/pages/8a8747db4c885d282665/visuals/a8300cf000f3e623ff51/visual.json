@@ -5,8 +5,8 @@
     "x": 40,
     "y": 265,
     "z": 3,
-    "height": 790,
     "width": 920,
+    "height": 790,
     "tabOrder": 3
   },
   "visual": {
@@ -27,8 +27,7 @@
                 }
               },
               "queryRef": "weather.station_year",
-              "nativeQueryRef": "station_year",
-              "active": true
+              "nativeQueryRef": "station_year"
             }
           ]
         },
@@ -71,7 +70,6 @@
               },
               "queryRef": "Sum(weather.growing_season_rain_mm)",
               "nativeQueryRef": "growing_season_rain_mm",
-              "active": true,
               "displayName": "Rain, March to August (mm)"
             }
           ]

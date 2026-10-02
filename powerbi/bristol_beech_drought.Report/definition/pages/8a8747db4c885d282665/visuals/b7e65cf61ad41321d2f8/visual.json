@@ -5,8 +5,8 @@
     "x": 40,
     "y": 175,
     "z": 2,
-    "height": 80,
     "width": 920,
+    "height": 80,
     "tabOrder": 2
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "weather.station",
               "nativeQueryRef": "station",
-              "active": true,
               "displayName": "Weather station"
             }
           ]

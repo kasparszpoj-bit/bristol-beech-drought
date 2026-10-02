@@ -5,8 +5,8 @@
     "x": 40,
     "y": 715,
     "z": 10,
-    "height": 345,
     "width": 1300,
+    "height": 345,
     "tabOrder": 10
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "grass_vs_trees.year",
               "nativeQueryRef": "year",
-              "active": true,
               "displayName": "Year"
             }
           ]
