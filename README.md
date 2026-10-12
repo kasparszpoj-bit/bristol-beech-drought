@@ -10,12 +10,13 @@ summer from 2018 to 2026. Click a tree for its history.
 
 [![The interactive web map: Bristol's council trees coloured by their 2026 change in red edge](outputs/figures/web_map.png)](https://kasparszpoj-bit.github.io/bristol-beech-drought/)
 
-| | |
+| At a glance | |
 |---|---|
-| Trees | 56,581 in the council register; 8,623 crowns mapped from LIDAR; 1,927 analysable, 195 of them beech |
-| Data | Sentinel-2 (243 images, 2018 to 2026), Environment Agency 1 m LIDAR, Met Office records, a field survey |
-| Tools | PostgreSQL and PostGIS, QGIS (three Processing models), Python, MapLibre, Power BI, QField |
-| Outputs | [Web map](https://kasparszpoj-bit.github.io/bristol-beech-drought/), [Power BI report](#power-bi-report), figures and this write-up |
+| Skills | Satellite remote sensing (vegetation indices, cloud masking, mixed pixel correction) · LIDAR crown mapping · spatial databases and SQL · geoprocessing automation · statistics (bootstrap intervals, baseline comparison) · field survey design · web mapping · dashboard reporting · reproducible pipelines |
+| Tools | PostgreSQL and PostGIS · QGIS (Graphical Modeler, three models run headless) · Python (pandas, matplotlib, psycopg, pytest) · MapLibre GL JS and GitHub Pages · Power BI (DAX) · QField · Git |
+| Data | Sentinel-2 (243 images, 2018 to 2026) · Environment Agency 1 m LIDAR · council tree register (56,581 trees) · Met Office records · my own field survey |
+| Scale | 8,623 crowns mapped from LIDAR; 1,927 analysable, 195 of them beech |
+| Outputs | [Web map](https://kasparszpoj-bit.github.io/bristol-beech-drought/) · [Power BI report](#power-bi-report) · figures and this write-up |
 
 ## The tree that started it
 
