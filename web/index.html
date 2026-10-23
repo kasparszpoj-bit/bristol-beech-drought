@@ -5,15 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bristol's Trees in the 2026 Drought</title>
   <meta name="description" content="An interactive map of how 1,927 large council trees in Bristol responded to the 2026 drought, from Sentinel-2 satellite images and LIDAR crowns.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Public+Sans:ital,wght@0,400..700;1,400&display=swap">
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="layout">
     <aside class="panel" aria-label="Map controls and results">
-      <header>
-        <p class="eyebrow">Bristol beech drought project · Phase 1</p>
+      <header class="intro">
         <h1>How Bristol's trees fared in the 2026 drought</h1>
+        <p class="project">Bristol beech drought project, phase 1</p>
         <p class="lede">Every dot is a large council tree, compared with its own normal
           summers using Sentinel-2 satellite images, with the grass around it removed.
           Colour shows the change in <strong>red edge</strong>, a measure of leaf
@@ -27,7 +30,8 @@
           <button id="play" class="play" type="button" aria-pressed="false">Play years</button>
         </div>
         <div id="years" class="years" role="radiogroup" aria-labelledby="year-label"></div>
-        <p class="hint">Droughts are marked with a dot. Normal years sit near zero by design.</p>
+        <p class="hint">Each year is shaded by the median change of the trees shown.
+          Droughts are marked with a dot. Normal years sit near zero by design.</p>
       </section>
 
       <section class="stats" aria-live="polite">
@@ -62,11 +66,6 @@
 
       <section id="detail" class="detail" hidden aria-live="polite"></section>
 
-      <section class="block legend" aria-labelledby="legend-label">
-        <h2 id="legend-label">Change in red edge from the tree's normal</h2>
-        <ul id="legend"></ul>
-      </section>
-
       <footer>
         <p>Phase 1 of a project by Kaspar Szpojnarowicz.
           <a href="https://github.com/kasparszpoj-bit/bristol-beech-drought">Method, code and findings on GitHub</a>.</p>
@@ -74,7 +73,7 @@
           is a few mixed pixels, so the map shows patterns across many trees, not a
           health check of any single tree. Contains Bristol City Council data, modified
           Copernicus Sentinel data, Environment Agency LIDAR and ONS boundary data
-          (Open Government Licence v3.0).</p>
+          (Open Government Licence v3.0). Terrain shading from Mapzen Terrain Tiles.</p>
       </footer>
     </aside>
 
@@ -84,6 +83,12 @@
         <button type="button" data-base="map" aria-pressed="true">Map</button>
         <button type="button" data-base="aerial" aria-pressed="false">Aerial</button>
       </div>
+      <section class="map-key" aria-labelledby="legend-label">
+        <p class="key-year"><span id="key-year">2026</span><span id="key-kind" class="key-kind">drought summer</span></p>
+        <h2 id="legend-label">Change in red edge from the tree's normal</h2>
+        <ul id="legend" class="scale"></ul>
+        <p class="key-none"><span class="swatch none"></span>No clear image that summer</p>
+      </section>
       <div id="loading" class="loading">Loading 1,927 trees…</div>
     </div>
   </main>

@@ -6,12 +6,36 @@
 const YEARS = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026];
 const DROUGHTS = new Set([2018, 2022, 2026]);
 const SPECIES = ["beech", "sycamore", "oak", "lime", "plane"];
+// Band colours match the Power BI report. `ink` is the text colour that reads on each.
 const BANDS = [
-  { key: "strong", label: "Strong drop (below −0.08)", colour: "#B4380A", test: v => v < -0.08 },
-  { key: "drop", label: "Drop (−0.08 to −0.03)", colour: "#F08A4B", test: v => v < -0.03 },
-  { key: "near", label: "Near normal (−0.03 to +0.03)", colour: "#D9D8D2", test: v => v <= 0.03 },
-  { key: "above", label: "Above normal (over +0.03)", colour: "#2A78D6", test: () => true },
+  { key: "strong", short: "Strong drop", range: "below −0.08", colour: "#B4380A", ink: "#FFFFFF", test: v => v < -0.08 },
+  { key: "drop", short: "Drop", range: "−0.08 to −0.03", colour: "#F08A4B", ink: "#1C2721", test: v => v < -0.03 },
+  { key: "near", short: "Near normal", range: "−0.03 to +0.03", colour: "#D9D8D2", ink: "#1C2721", test: v => v <= 0.03 },
+  { key: "above", short: "Above normal", range: "over +0.03", colour: "#2A78D6", ink: "#FFFFFF", test: () => true },
 ];
+const TICKS = ["−0.08", "−0.03", "+0.03"];
+const INK = "#1C2721";
+const NO_IMAGE = "#8A9189";
+
+// Quiet base map: Positron re-tinted so green space reads as sage and water as
+// cool grey-blue, with labels pulled back. Keys are OpenFreeMap Positron layer ids.
+const BASE_PAINT = {
+  background: { "background-color": "#EEF0EA" },
+  park: { "fill-color": "#DCE6D3" },
+  landcover_wood: { "fill-color": "#D3DFCA" },
+  landuse_residential: { "fill-color": "#E9ECE5" },
+  water: { "fill-color": "#C3D3DA" },
+  waterway: { "line-color": "#AFC4CD" },
+  building: { "fill-color": "#E1E5DD", "fill-outline-color": "#D2D8CE" },
+  highway_major_inner: { "line-color": "#FBFCF9" },
+  highway_motorway_inner: { "line-color": "#FBFCF9" },
+  water_name_point_label: { "text-color": "#4E6F82", "text-halo-color": "rgba(238,240,234,0.8)" },
+  water_name_line_label: { "text-color": "#4E6F82", "text-halo-color": "rgba(238,240,234,0.8)" },
+  "highway-name-minor": { "text-color": "#7D877F" },
+  "highway-name-major": { "text-color": "#6F7A72" },
+};
+const PLACE_LABELS = ["label_other", "label_village", "label_town", "label_city", "label_city_capital"];
+const HIDDEN_BASE = ["highway-shield-non-us", "highway-shield-us-interstate", "road_shield_us", "airport"];
 const SIZES = [
   { key: "small", label: "Under 50 cm", match: s => s.startsWith("1") || s.startsWith("2") },
   { key: "mid", label: "50 to 79 cm", match: s => s.startsWith("3") },
@@ -66,7 +90,7 @@ const map = new maplibregl.Map({
 });
 map.addControl(new maplibregl.AttributionControl({
   compact: true,
-  customAttribution: "Trees: Bristol City Council (OGL) · Crowns: EA LIDAR · Readings: Copernicus Sentinel-2",
+  customAttribution: "Trees: Bristol City Council (OGL) · Crowns: EA LIDAR · Readings: Copernicus Sentinel-2 · Terrain: Mapzen",
 }));
 map.addControl(new maplibregl.NavigationControl({ visualizePitch: false }), "top-right");
 map.addControl(new maplibregl.FullscreenControl(), "top-right");
@@ -89,7 +113,50 @@ function filterExpression() {
     ["in", ["get", "siteKey"], ["literal", [...state.sites]]]];
 }
 
+// Every tree layer sorts its strongest changes to the top, so a scorched tree
+// is never hidden under a near-normal neighbour.
+const sortKey = year => ["abs", ["coalesce", ["get", `r${year}`], 0]];
+const missing = year => ["==", ["get", `r${year}`], null];
+
+function styleBasemap() {
+  const set = (id, prop, value) => { if (map.getLayer(id)) map.setPaintProperty(id, prop, value); };
+  for (const [id, paint] of Object.entries(BASE_PAINT)) {
+    for (const [prop, value] of Object.entries(paint)) set(id, prop, value);
+  }
+  for (const id of PLACE_LABELS) {
+    set(id, "text-color", "#36433B");
+    set(id, "text-halo-color", "rgba(238,240,234,0.9)");
+    set(id, "text-halo-width", 1.4);
+  }
+  for (const id of HIDDEN_BASE) if (map.getLayer(id)) map.setLayoutProperty(id, "visibility", "none");
+
+  // Soft relief: the Avon Gorge, the Downs and the ridges behind the city.
+  map.addSource("terrain", {
+    type: "raster-dem",
+    tiles: ["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],
+    encoding: "terrarium",
+    tileSize: 256,
+    maxzoom: 15,
+  });
+  map.addLayer({ id: "hillshade", type: "hillshade", source: "terrain",
+    paint: { "hillshade-exaggeration": 0.32,
+             "hillshade-shadow-color": "#4B5C4E",
+             "hillshade-highlight-color": "#FFFFFF",
+             "hillshade-accent-color": "#5F6E62",
+             "hillshade-illumination-direction": 315 } },
+    map.getLayer("building") ? "building" : undefined);
+}
+
+// Everything outside the city boundary, as one polygon with Bristol cut out.
+function outsideMask(boundary) {
+  const holes = boundary.features.flatMap(f =>
+    f.geometry.type === "Polygon" ? [f.geometry.coordinates[0]] : f.geometry.coordinates.map(p => p[0]));
+  return { type: "Feature", properties: {}, geometry: { type: "Polygon",
+    coordinates: [[[-4, 50.5], [-1, 50.5], [-1, 52.5], [-4, 52.5], [-4, 50.5]], ...holes] } };
+}
+
 function addLayers(treeData, crownData, boundary) {
+  styleBasemap();
   map.addSource("aerial", {
     type: "raster",
     tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
@@ -101,29 +168,39 @@ function addLayers(treeData, crownData, boundary) {
   map.addLayer({ id: "aerial", type: "raster", source: "aerial",
     layout: { visibility: "none" } });
 
+  // Dim the land outside Bristol so the eye stays on the city's trees.
+  map.addSource("outside", { type: "geojson", data: outsideMask(boundary) });
+  map.addLayer({ id: "outside", type: "fill", source: "outside",
+    paint: { "fill-color": "#F6F7F3", "fill-opacity": 0.55 } });
+
   map.addSource("boundary", { type: "geojson", data: boundary });
+  map.addLayer({ id: "boundary-halo", type: "line", source: "boundary",
+    paint: { "line-color": "#FFFFFF", "line-width": 5, "line-opacity": 0.7 } });
   map.addLayer({ id: "boundary", type: "line", source: "boundary",
-    paint: { "line-color": "#6E63B5", "line-width": 1.6, "line-opacity": 0.8 } });
+    paint: { "line-color": INK, "line-width": 1.3, "line-opacity": 0.75, "line-dasharray": [4, 2] } });
 
   map.addSource("crowns", { type: "geojson", data: crownData, promoteId: "id" });
   map.addLayer({ id: "crowns", type: "fill", source: "crowns", minzoom: 14.5,
+    layout: { "fill-sort-key": sortKey(state.year) },
     paint: { "fill-color": colourExpression(state.year),
-             "fill-opacity": ["interpolate", ["linear"], ["zoom"], 14.5, 0, 15.5, 0.75] } });
+             "fill-opacity": ["interpolate", ["linear"], ["zoom"], 14.5, 0, 15.5, 0.82] } });
   map.addLayer({ id: "crown-lines", type: "line", source: "crowns", minzoom: 14.5,
-    paint: { "line-color": "#3d3b35",
-             "line-width": ["case", ["boolean", ["feature-state", "selected"], false], 2.5, 0.6],
-             "line-opacity": ["interpolate", ["linear"], ["zoom"], 14.5, 0, 15.5, 0.8] } });
+    paint: { "line-color": INK,
+             "line-width": ["case", ["boolean", ["feature-state", "selected"], false], 2.5, 0.7],
+             "line-opacity": ["interpolate", ["linear"], ["zoom"], 14.5, 0, 15.5, 0.55] } });
 
   map.addSource("trees", { type: "geojson", data: treeData, promoteId: "id" });
   map.addLayer({ id: "trees", type: "circle", source: "trees",
+    layout: { "circle-sort-key": sortKey(state.year) },
     paint: {
       "circle-color": colourExpression(state.year),
-      "circle-radius": ["interpolate", ["linear"], ["zoom"], 11, 3.6, 14, 6, 15.5, 4, 18, 5],
-      "circle-stroke-color": ["case", ["==", ["get", `r${state.year}`], null], "#9A9890", "#FFFFFF"],
-      "circle-stroke-width": ["case", ["==", ["get", `r${state.year}`], null], 1.5, 0.8],
+      "circle-radius": ["interpolate", ["linear"], ["zoom"], 10, 2.4, 12, 4, 14, 6, 15.5, 4, 18, 5],
+      // A thin dark rim gives the pale bands contrast against the light base map.
+      "circle-stroke-color": ["case", missing(state.year), NO_IMAGE, "rgba(28,39,33,0.5)"],
+      "circle-stroke-width": ["case", missing(state.year), 1.5, 0.7],
     } });
   // The selected tree: a dark ring on a white halo, visible on both basemaps.
-  for (const [id, colour, width] of [["selected-halo", "#FFFFFF", 6], ["selected", "#1f1f1c", 2.5]]) {
+  for (const [id, colour, width] of [["selected-halo", "#FFFFFF", 6], ["selected", INK, 2.5]]) {
     map.addLayer({ id, type: "circle", source: "trees",
       filter: ["==", ["get", "id"], ""],
       paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 11, 9, 18, 13],
@@ -134,11 +211,17 @@ function addLayers(treeData, crownData, boundary) {
 
 function applyYear() {
   const colour = colourExpression(state.year);
-  const missing = ["==", ["get", `r${state.year}`], null];
+  const none = missing(state.year);
   map.setPaintProperty("trees", "circle-color", colour);
-  map.setPaintProperty("trees", "circle-stroke-color", ["case", missing, "#9A9890", "#FFFFFF"]);
-  map.setPaintProperty("trees", "circle-stroke-width", ["case", missing, 1.5, 0.8]);
+  map.setPaintProperty("trees", "circle-stroke-color", ["case", none, NO_IMAGE, "rgba(28,39,33,0.5)"]);
+  map.setPaintProperty("trees", "circle-stroke-width", ["case", none, 1.5, 0.7]);
+  map.setLayoutProperty("trees", "circle-sort-key", sortKey(state.year));
   map.setPaintProperty("crowns", "fill-color", colour);
+  map.setLayoutProperty("crowns", "fill-sort-key", sortKey(state.year));
+  document.getElementById("key-year").textContent = state.year;
+  const kind = document.getElementById("key-kind");
+  kind.textContent = DROUGHTS.has(state.year) ? "drought summer" : "summer";
+  kind.classList.toggle("drought", DROUGHTS.has(state.year));
 }
 
 function applyFilters() {
@@ -187,7 +270,7 @@ function updateSpecies() {
     if (r.m !== null) {
       const w = Math.min(Math.abs(r.m) / scale, 1) * 50;
       const left = r.m < 0 ? 50 - w : 50;
-      track.append(el("span", { class: "sp-bar",
+      track.append(el("span", { class: `sp-bar ${r.m < 0 ? "neg" : "pos"}`,
         style: `left:${left}%;width:${w}%;background:${band(r.m).colour}` }));
     }
     b.append(track, el("span", { class: "sp-value" }, r.m === null ? "none" : fmt(r.m)));
@@ -233,11 +316,15 @@ function updateChips() {
 function buildYears() {
   const box = document.getElementById("years");
   box.replaceChildren();
+  const shown = trees.map(f => f.properties).filter(visible);
   for (const y of YEARS) {
+    const m = median(shown.map(p => yearValue(p, y)).filter(v => v !== null));
     const b = el("button", { type: "button", role: "radio",
       "aria-checked": String(y === state.year),
       class: DROUGHTS.has(y) ? "drought" : "",
+      title: m === null ? `${y}: no readings` : `${y}: median ${fmt(m)}`,
       "aria-label": `${y}${DROUGHTS.has(y) ? ", drought year" : ""}` }, String(y));
+    if (m !== null) b.style.cssText = `--c:${band(m).colour};--t:${band(m).ink}`;
     b.addEventListener("click", () => { stopPlay(); setYear(y); });
     box.append(b);
   }
@@ -245,7 +332,6 @@ function buildYears() {
 
 function setYear(y) {
   state.year = y;
-  buildYears();
   applyYear();
   refresh(false);
   if (state.selected) showDetail(state.selected);
@@ -272,16 +358,18 @@ function stopPlay() {
   btn.textContent = "Play years";
 }
 
+// A diverging scale bar, with the band edges marked above it.
 function buildLegend() {
   const ul = document.getElementById("legend");
   for (const b of BANDS) {
-    const li = el("li");
-    li.append(el("span", { class: "swatch", style: `background:${b.colour}` }), b.label);
+    const li = el("li", { title: `${b.short} (${b.range})` });
+    li.append(el("span", { class: "bar", style: `background:${b.colour}` }),
+      el("span", { class: "lab" }, b.short), el("span", { class: "sr-only" }, ` (${b.range})`));
     ul.append(li);
   }
-  const li = el("li");
-  li.append(el("span", { class: "swatch none" }), "No clear image that summer");
-  ul.append(li);
+  const ticks = el("div", { class: "ticks", "aria-hidden": "true" });
+  TICKS.forEach((t, i) => ticks.append(el("span", { style: `left:${(i + 1) * 25}%` }, t)));
+  ul.append(ticks);
 }
 
 function buildFinder() {
@@ -316,21 +404,21 @@ function historyChart(p) {
   const bw = step * 0.62;
   const parts = [];
   for (const t of [max, 0, -max]) {
-    parts.push(`<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="${t === 0 ? "#75746d" : "#ecebe6"}" stroke-width="1"/>`);
-    parts.push(`<text x="${L - 5}" y="${y(t) + 4}" text-anchor="end" font-size="10" fill="#75746d">${t === 0 ? "0" : (t > 0 ? "+" : "−") + Math.abs(t).toFixed(2)}</text>`);
+    parts.push(`<line x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}" stroke="${t === 0 ? "#626e66" : "#e6eae3"}" stroke-width="1"/>`);
+    parts.push(`<text x="${L - 5}" y="${y(t) + 4}" text-anchor="end" font-size="10" fill="#626e66">${t === 0 ? "0" : (t > 0 ? "+" : "−") + Math.abs(t).toFixed(2)}</text>`);
   }
   YEARS.forEach((yr, i) => {
     const v = vals[i];
     const x = L + i * step + (step - bw) / 2;
     const current = yr === state.year;
     if (v === null || v === undefined) {
-      parts.push(`<text x="${x + bw / 2}" y="${y(0) - 4}" text-anchor="middle" font-size="9" fill="#9a9890">n/a</text>`);
+      parts.push(`<text x="${x + bw / 2}" y="${y(0) - 4}" text-anchor="middle" font-size="9" fill="#8a9189">n/a</text>`);
     } else {
       const top = Math.min(y(v), y(0));
       const h = Math.max(Math.abs(y(v) - y(0)), 1);
-      parts.push(`<rect x="${x}" y="${top}" width="${bw}" height="${h}" rx="2" fill="${band(v).colour}"${current ? ' stroke="#1f1f1c" stroke-width="1.5"' : ""}><title>${yr}: ${fmt(v)}</title></rect>`);
+      parts.push(`<rect x="${x}" y="${top}" width="${bw}" height="${h}" rx="2" fill="${band(v).colour}"${current ? ' stroke="#1c2721" stroke-width="1.5"' : ""}><title>${yr}: ${fmt(v)}</title></rect>`);
     }
-    parts.push(`<text x="${x + bw / 2}" y="${H - 6}" text-anchor="middle" font-size="10" fill="${current ? "#1f1f1c" : "#75746d"}"${current ? ' font-weight="700"' : ""}>${String(yr).slice(2)}${DROUGHTS.has(yr) ? "*" : ""}</text>`);
+    parts.push(`<text x="${x + bw / 2}" y="${H - 6}" text-anchor="middle" font-size="10" fill="${current ? "#1c2721" : "#626e66"}"${current ? ' font-weight="700"' : ""}>${String(yr).slice(2)}${DROUGHTS.has(yr) ? "*" : ""}</text>`);
   });
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Change in red edge from normal, 2018 to 2026">${parts.join("")}</svg>`;
 }
@@ -369,7 +457,7 @@ function showDetail(id) {
     (p.latin || "").replace(/\s*-\s*Species Unknown/i, " (species not recorded)");
   box.querySelector('[data-k="site"]').textContent = p.site || "unnamed site";
   box.querySelector(".close").addEventListener("click", () => select(null));
-  box.style.borderLeftColor = yearValue(p, state.year) === null ? "#9a9890" : band(yearValue(p, state.year)).colour;
+  box.style.borderLeftColor = yearValue(p, state.year) === null ? NO_IMAGE : band(yearValue(p, state.year)).colour;
   box.hidden = false;
 }
 
@@ -391,6 +479,7 @@ function select(id) {
 
 function refresh(rebuildMap = true) {
   if (rebuildMap) applyFilters();
+  buildYears();
   updateStats();
   updateSpecies();
   updateChips();
@@ -423,8 +512,8 @@ function hoverTips() {
     map.getCanvas().style.cursor = "pointer";
     const v = yearValue(p, state.year);
     const node = el("div");
-    node.append(el("strong", {}, p.name || p.species), el("span", {}, p.site || ""), el("br"),
-      el("span", { class: "tip-value" },
+    node.append(el("strong", {}, p.name || p.species), el("span", { class: "tip-site" }, p.site || ""), el("br"),
+      el("span", { class: "tip-value", style: `--c:${v === null ? "#FFFFFF" : band(v).colour}` },
         v === null ? `${state.year}: no clear image` : `${state.year}: ${fmt(v)} red edge`));
     tip.setLngLat(e.lngLat).setDOMContent(node).addTo(map);
   };
@@ -441,7 +530,10 @@ function basemapButtons() {
     b.addEventListener("click", () => {
       const aerial = b.dataset.base === "aerial";
       map.setLayoutProperty("aerial", "visibility", aerial ? "visible" : "none");
-      map.setPaintProperty("boundary", "line-color", aerial ? "#FFFFFF" : "#6E63B5");
+      map.setPaintProperty("outside", "fill-color", aerial ? "#10140F" : "#F6F7F3");
+      map.setPaintProperty("outside", "fill-opacity", aerial ? 0.45 : 0.55);
+      map.setPaintProperty("boundary", "line-color", aerial ? "#FFFFFF" : INK);
+      map.setLayoutProperty("boundary-halo", "visibility", aerial ? "none" : "visible");
       document.querySelectorAll(".basemaps button").forEach(x =>
         x.setAttribute("aria-pressed", String(x === b)));
     });
@@ -459,7 +551,6 @@ Promise.all([load("trees"), load("crowns"), load("boundary"),
   .then(([treeData, crownData, boundary]) => {
     prepare(treeData, crownData);
     addLayers(treeData, crownData, boundary);
-    buildYears();
     buildLegend();
     buildFinder();
     hoverTips();

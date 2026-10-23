@@ -212,6 +212,9 @@ DAX queries. [How to open it](powerbi/README.md).
   and a distinct count caught it.
 - **Field trees drawn at random,** so a match with the satellite means
   something.
+- **A quiet base map for loud data:** the web map mutes and dims everything
+  except the trees, keeps the Power BI band colours for consistency, and
+  draws the strongest changes on top so they are never hidden.
 
 Every step and its reasoning: [docs/project_log.md](docs/project_log.md).
 

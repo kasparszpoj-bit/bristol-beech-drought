@@ -656,6 +656,38 @@ Arup Graduate Geospatial Specialist ad) where useful.
 - **Skills:** web mapping (MapLibre, GeoJSON, HTML, CSS, JavaScript), CI
   and GitHub Pages, Power BI as code, testing.
 
+## 23 October 2026: map redesign
+
+- **What:** a visual redesign of the web map, content unchanged. Why: the
+  first version used the stock grey basemap and default controls, so it
+  looked like a generic web map.
+- **Base map:** Positron re-tinted at load time (`styleBasemap` in
+  `web/app.js`): parks and woods in sage, water in grey-blue, labels muted,
+  road shields hidden. A soft hillshade from Mapzen terrain tiles shows the
+  Avon Gorge and the Downs. Land outside the Bristol boundary is dimmed with
+  a mask polygon (the boundary cut out of a large rectangle), and the
+  boundary is now a dashed ink line instead of purple.
+- **Data layers:** band colours unchanged, so the map still matches Power BI.
+  A colour-blindness check (deuteranopia, all pairs) passed, with the closest
+  pair at ΔE 17.8. The amber and grey bands are under 3:1 contrast on the
+  light base, so every dot now has a thin dark rim. Trees and crowns draw the
+  strongest changes on top (`circle-sort-key`, `fill-sort-key`), so a
+  scorched tree is never hidden under a near-normal one.
+- **Panel:** type set in Bricolage Grotesque (titles, numbers) and Public
+  Sans (text). The year buttons became a strip, each year shaded by the
+  median change of the trees shown, so the drought summers stand out before
+  any click. The headline numbers became one ruled row instead of three
+  cards, and the filter chips switched from solid black to a light tick style.
+- **Map key:** moved from the bottom of the panel onto the map, with the year
+  in large type above a diverging scale bar and its thresholds.
+- **Result:** checked in a browser at desktop and phone widths, on both the
+  map and aerial basemaps, with no horizontal scroll on phones. Headline
+  numbers unchanged (2026: 1,927 trees, median −0.037, 84% below normal).
+- **Files:** `web/index.html`, `web/style.css`, `web/app.js`.
+- **Skills:** cartographic design (visual hierarchy, basemap styling,
+  hillshade, masking), colour accessibility checks, MapLibre style
+  expressions, CSS.
+
 ---
 
 ## Next
