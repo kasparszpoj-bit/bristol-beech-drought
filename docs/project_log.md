@@ -688,6 +688,30 @@ Arup Graduate Geospatial Specialist ad) where useful.
   hillshade, masking), colour accessibility checks, MapLibre style
   expressions, CSS.
 
+## 26 October 2026: giant polypore cases
+
+- **What:** searched news, iNaturalist, NBN Atlas, FixMyStreet and social
+  media for giant polypore cases in Bristol, and matched every iNaturalist
+  record to the nearest register beech. Why: Phase 2 needs real infected
+  trees to test whether root rot shows on the satellite.
+- **Trigger:** the Victoria Square copper beech (planted about 1860,
+  fungus found 2017, four static load tests, felling announced about 21
+  October) was blown down by Storm Boelo on 24 to 25 October 2026.
+- **Result:** iNaturalist was the best source (72 records, most to under
+  20 m); NBN Atlas is too coarse for single trees; news found only Victoria
+  Square; Facebook needs a login. Five Victoria Square records sit 7 to 8 m
+  from PK00066794, whose greenness fell −0.047, −0.101 and −0.165 in 2024,
+  2025 and 2026 (6th and 9th lowest of 195 beeches in 2025 and 2026). The
+  fallen tree is still to be confirmed as PK00066794. St Andrews Park
+  (PK31500) has iNaturalist records from 2024, so the fungus predates the
+  drought. Eastville Park is a hotspot, and PK00216254 has fruited since
+  2019 with only mild drops: a counter case.
+- **Privacy:** no record within 700 m of the garden tree. Raw records kept
+  in `data/` (not committed); observer names and photos not to be published.
+- **Files:** `docs/polypore_cases.md`, `data/polypore/`.
+- **Skills:** web and API data gathering (iNaturalist, NBN Atlas), spatial
+  matching to an asset register, judging source precision.
+
 ---
 
 ## Next
