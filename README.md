@@ -218,15 +218,23 @@ DAX queries. [How to open it](powerbi/README.md).
 
 Every step and its reasoning: [docs/project_log.md](docs/project_log.md).
 
-## Phase 2: ground truth and giant polypore cases
+## Related project: giant polypore and dry summers
+
+Finding out how much Bristol's beeches suffered in 2026 led me to research
+giant polypore specifically, in a separate project:
+[giant-polypore-drought-uk](https://github.com/kasparszpoj-bit/giant-polypore-drought-uk).
+It shows that drier summers bring more giant polypore sightings across the
+UK, while fungi in general do not follow the pattern.
+
+## Next steps
 
 October 2026 to summer 2027.
 
 1. Finish the random field sample (41 of 61 scored) and test whether
    stressed trees read lower on the satellite.
-2. Find real giant polypore cases (NBN Atlas, FixMyStreet reports, field
-   sightings) and test whether they show the garden tree's signal. The
-   first: a beech in St Andrews Park (PK31500), found on 2 October 2026.
+2. Test whether beeches with giant polypore show the garden tree's
+   satellite signal, starting with a beech in St Andrews Park (PK31500),
+   found on 2 October 2026.
 3. Rank large stressed beeches near roads and buildings for a tree officer.
 4. Group trees by how they responded from 2018 to 2026.
 5. Add a Power BI page on the ground truth.
