@@ -712,11 +712,91 @@ Arup Graduate Geospatial Specialist ad) where useful.
 - **Skills:** web and API data gathering (iNaturalist, NBN Atlas), spatial
   matching to an asset register, judging source precision.
 
+## 28 October 2026: polypore records and the 2026 season
+
+- **What:** loaded every giant polypore record within 12 km into PostGIS,
+  grouped them into sites, and asked whether 2026 had more sightings than
+  usual once recording effort is allowed for. Why: Kaspar's main question
+  for Phase 2 is whether recent weather has made the fungus worse.
+- **Pipeline:** `beech-ingest-polypore` pulls iNaturalist and NBN Atlas
+  records (no observer names or photos) and yearly iNaturalist counts of
+  all fungi as an effort measure, over the same window each year (1 August
+  to today's date). `sql/12_polypore.sql` groups precise records into
+  sites with `ST_ClusterDBSCAN` (15 m) and matches each site to the nearest
+  register tree and beech by KNN on GiST indexes.
+- **Result:** 2026 has 17 records from 16 observers (4 to 11 in earlier
+  years), 1.7 times the effort corrected rate against all records (p =
+  0.05) and 2.8 times against fungus records (p < 0.001), while fungus
+  records as a whole halved. Earlier dry summers (2022, 2025) showed no
+  rise. This does not prove a weather effect: one season, attention to
+  stressed trees, and fruit bodies showing old decay are all possible
+  explanations. Write up in `docs/polypore_cases.md`.
+- **Correction:** the literature review expected iNaturalist and NBN
+  records to overlap; in Bristol none of the NBN records come from
+  iNaturalist.
+- **Privacy:** nearest record 737 m from the garden tree.
+- **Files:** `src/beech/ingest_polypore.py`, `sql/12_polypore.sql`,
+  `tests/test_polypore.py`, `docs/polypore_cases.md`, README decisions.
+- **Skills:** APIs, ETL, spatial SQL (DBSCAN clustering, KNN), effort
+  correction for citizen science data, rate tests.
+
+## 28 October 2026: testing the drought hypothesis
+
+- **What:** tested Kaspar's hypothesis (dry weather weakens trees, the
+  fungus develops more, more fruiting even after a dry year) with the data
+  so far. Why: to know what can be claimed now.
+- **Result:**
+  - Yearly sightings (effort corrected, 2019 to 2026) are higher after
+    drier summers, but weakly: r = -0.4 with same summer rain, -0.15 with
+    the previous summer. Eight years, not significant.
+  - The 8 analysable register beeches with a record within 15 m are less
+    green than the other 187 across 2018 to 2026 (median -0.043 against
+    -0.019, permutation p about 0.01). They are not more drought sensitive
+    (dry year drop no bigger) and only 3 of the 8 are among the steepest
+    decliners. 2023 left out (1 to 2 scenes for these trees).
+  - Fruiting timing follows autumn rain (previous entry).
+  - Cannot yet tell whether weak trees catch the fungus or the fungus
+    weakens the trees; untested trees may also be infected.
+- **Skills:** permutation tests, effort corrected rates, honest inference.
+
+## 28 October 2026: the per tree test, fixed in advance
+
+- **What:** a discrete-time survival model of when giant polypore first
+  appears at each analysable register beech, with the previous year's red
+  edge stress as the predictor, plus written predictions for 2027 and 2028
+  (`docs/polypore_prediction.md`). Why: to test whether stress comes
+  before the fungus, and to fix the tests before the data arrives so they
+  cannot be tuned to it.
+- **Pipeline:** `beech-polypore-hazard` builds a tree-year table
+  (`outputs/tables/polypore_tree_years.csv`), drops trees first seen in
+  2019 (left truncation), fits a complementary log-log GLM with an effort
+  term, and runs a 2,000-shuffle permutation test. `beech-ingest-polypore`
+  now also counts all iNaturalist records as a steadier effort measure.
+- **Result:** 7 first appearances in 1,245 tree years. Hazard ratio 1.46
+  per 0.05 of previous-year stress (95% CI 0.76 to 2.79), permutation
+  p = 0.25: the predicted direction, not significant. About 58 events are
+  needed to detect that size of effect; public records add 2 to 5 a year,
+  so the tree test needs a September survey of the beeches, not only more
+  years. The citywide test (Test 1) can be read after the next normal
+  summer: rate above 2.24 per 1,000 records supports a lasting effect.
+- **Files:** `src/beech/polypore_hazard.py`, `docs/polypore_prediction.md`,
+  `tests/test_polypore.py`, `pyproject.toml` (statsmodels).
+- **Skills:** survival analysis, pre-registration, power analysis,
+  permutation tests.
+
+
+## 28 October 2026: giant polypore moved to its own project
+
+- The sightings and weather work (literature review, UK records, rain
+  models, predictions) is now a separate project,
+  [giant-polypore-drought-uk](https://github.com/kasparszpoj-bit/giant-polypore-drought-uk),
+  with its own log. This repo keeps the Bristol records ingest, because the
+  per tree satellite test reads them.
+
 ---
 
 ## Next
 
-Phase 2: finish the field sample before leaf fall (late October 2026) with
-a blind rescore; collect giant polypore cases from FixMyStreet, NBN Atlas
-and sightings; the inspection list; September images; response clusters; a
-Power BI ground-truth page; re-score in summer 2027.
+Finish the field sample with a blind rescore; the inspection list;
+September images; response clusters; a Power BI ground-truth page; rerun
+the per tree test each November; re-score in summer 2027.

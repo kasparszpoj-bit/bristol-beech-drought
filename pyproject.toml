@@ -9,6 +9,7 @@ dependencies = [
     "psycopg[binary]>=3.2",
     "pandas>=2.2",
     "matplotlib>=3.8",
+    "statsmodels>=0.14",
 ]
 
 [project.optional-dependencies]
@@ -31,6 +32,8 @@ beech-analysis = "beech.analysis:main"
 beech-powerbi-export = "beech.powerbi_export:main"
 beech-powerbi-report = "beech.powerbi_report:main"
 beech-web-export = "beech.web_export:main"
+beech-ingest-polypore = "beech.ingest_polypore:main"
+beech-polypore-hazard = "beech.polypore_hazard:main"
 
 [build-system]
 requires = ["setuptools>=68"]
